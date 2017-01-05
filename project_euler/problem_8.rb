@@ -30,24 +30,25 @@
 =end
 
 def largest_product_series( input, digits )
-    series = input.split( "" ).map( &:to_i )
+    series = input.split( '' ).map( &:to_i )
     max = 0
     index = 0
 
-    for i in 0..series.length-2 do
-        temp = 1
+    for i in 0..series.length do
+        if series.length-1 >= i + digits then
+            temp = 1
+            for j in i..i+digits-1 do
+                temp = temp * series[ j ]
+            end
 
-        for j in i..i+digits-1 do
-            temp = temp * series[ j ]
-        end
-
-        if temp > max then
-            max = temp
-            index = i
+            if temp > max then
+                max = temp
+                index = i
+            end
         end
     end
 
-    return result = 0
+    return series[ index..index+digits-1 ]
 end
 
 input ='73167176531330624919225119674426574742355349194934
@@ -71,4 +72,4 @@ input ='73167176531330624919225119674426574742355349194934
         05886116467109405077541002256983155200055935729725
         71636269561882670428252483600823257530420752963450'
 
-puts largest_product_series( input, 4 )
+puts largest_product_series( input, 4 ).inject { | result, element | result = result * element }

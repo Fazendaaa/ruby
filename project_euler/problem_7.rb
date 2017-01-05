@@ -13,7 +13,7 @@
 =end
 
 def sieve( limit )
-    max_length = 20
+    max_length = 500_000_000
     primes = []
     numbers = Array.new( max_length + 1 ) { | i | true }
     numbers[ 0 ] = false
@@ -32,4 +32,4 @@ def sieve( limit )
     return primes[ limit-1 ]
 end
 
-puts sieve( 1 )
+puts sieve( 10_001 )

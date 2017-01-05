@@ -13,32 +13,23 @@
 =end
 
 def sieve( limit )
-    flag = true
-    counter = 0
-    max_length = 500_000
-    numbers = Array.new( max_length ) { | i | i + 1 }
-    last = 0
+    max_length = 20
+    primes = []
+    numbers = Array.new( max_length + 1 ) { | i | true }
+    numbers[ 0 ] = false
+    numbers[ 1 ] = false
 
-    while flag do
-        last = last + 1
-        for i in ( 2..last ) do
-            ( 2*i..last ).step( i ) do | j |
-                numbers[ j ] = -1
+    max = ( Math.sqrt( max_length ) + 1 ).to_i
+    for i in ( 2..max ) do
+        if numbers[ i ] then
+            ( i**2..max_length + 1 ).step( i ) do | j |
+                numbers[ j ] = false
             end
-        end
-
-        total_primes = numbers.inject { | result, element | ( -1 != element ) ? result + 1 : result + 0 }
-        new_primes = total_primes - counter
-        counter = counter + new_primes
-
-        puts counter
-
-        if limit == counter then
-            flag = false
         end
     end
 
-    return last
+    primes = numbers.each_index.select { | i | true == numbers[ i ]  }
+    return primes[ limit-1 ]
 end
 
-puts sieve( 10_001 )
+puts sieve( 1 )

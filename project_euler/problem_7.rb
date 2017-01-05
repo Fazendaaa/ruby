@@ -15,31 +15,30 @@
 def sieve( limit )
     flag = true
     counter = 0
-    primes = [ 2 ]
+    max_length = 500_000
+    numbers = Array.new( max_length ) { | i | i + 1 }
+    last = 0
 
     while flag do
-        last = primes.length-1
-        puts last
-        max = primes[ last ]
-        #puts max
-        for i in ( 2..max ) do
-            ( i+i..max ).step( i ) do | j |
-                primes[ j ] = false
+        last = last + 1
+        for i in ( 2..last ) do
+            ( 2*i..last ).step( i ) do | j |
+                numbers[ j ] = -1
             end
         end
 
-        total_primes = primes.inject { | result, element | ( false != element ) ? result + 1 : result + 0 }
+        total_primes = numbers.inject { | result, element | ( -1 != element ) ? result + 1 : result + 0 }
         new_primes = total_primes - counter
         counter = counter + new_primes
 
-        #puts counter
+        puts counter
 
         if limit == counter then
             flag = false
         end
     end
 
-    return primes.pop
+    return last
 end
 
-sieve( 10_001 )
+puts sieve( 10_001 )

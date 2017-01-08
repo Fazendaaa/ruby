@@ -11,29 +11,22 @@
 =end
 
 def special_pythagorean_triplet( number )
-    a = b = c = 0
-    flag = false
+    a, b, c = 0
 
-    for i in 1..number do
-        for j in 1..i do
-            for k in 1..j do
-                if k*j + i*number == ( number**2 ) / 2 &&
-                   k + j + i == number then
-                    a, b, c = k, j, i
-                    flag = true
-                    break
+    catch( :stop ) do
+        for i in 1..number do
+            for j in 1..i do
+                for k in 1..j do
+                    if k*j + i*number == ( number**2 ) / 2 &&
+                       k + j + i == number then
+                        a, b, c = k, j, i
+                        throw :stop
+                    end
                 end
             end
-            if flag then
-                break
-            end
-        end
-        if flag then
-            break
         end
     end
 
-    puts a, b, c
     return a, b, c
 end
 

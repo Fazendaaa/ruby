@@ -15,14 +15,14 @@
 def sieve( limit )
     max_length = 500_000_000
     primes = []
-    numbers = Array.new( max_length + 1 ) { | i | true }
+    numbers = Array.new( max_length ) { | i | true }
     numbers[ 0 ] = false
     numbers[ 1 ] = false
 
-    max = ( Math.sqrt( max_length ) + 1 ).to_i
+    max = ( Math.sqrt( max_length ) ).to_i
     for i in ( 2..max ) do
         if numbers[ i ] then
-            ( i**2..max_length + 1 ).step( i ) do | j |
+            ( i**2..max_length ).step( i ) do | j |
                 numbers[ j ] = false
             end
         end

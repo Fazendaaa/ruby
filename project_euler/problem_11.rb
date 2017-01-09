@@ -31,7 +31,7 @@
 =end
 
 def greatest_product( array, limit )
-    
+
 end
 
 input ="08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -56,4 +56,4 @@ input ="08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
         01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"
 
 input = input.lines.map{ | line | line.split.map{ | str | str.to_i } }
-puts greatest_product( input, 4 )
+puts greatest_product( input, 4 ).inject { | result, element | result = result * element }

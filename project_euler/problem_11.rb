@@ -28,10 +28,42 @@
     The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
     What  is the greatest product of four adjacent numbers in the same direction
     ( up, down, left, right, or diagonally ) in the 20×20 grid?
+
+    note: special thanks to http://stackoverflow.com/users/290394/steenslag --
+    and to http://stackoverflow.com/users/256970/cary-swoveland --
+    http://stackoverflow.com/questions/41539331/ruby-convert-1d-array-to-2d-inline
 =end
 
-def greatest_product( array, limit )
+def __greatest_product_vector( vector, limit )
+    vector.each_cons( limit ).map { | element | element.reduce( :* ) }.max
+end
 
+def greatest_product_vector( array, limit )
+    array.map { | row | __greatest_product_vector( row, limit ) }.max
+end
+
+def __greatest_product_diagonals( array, limit )
+    indices = array.each_index.to_a
+    indices.product( indices ).
+            group_by { | i, j | i + j }.
+            values.
+            reject { | a | a.size < limit }.
+            map { | a | a.map { | i, j | array[ i ][ j ] } }
+end
+
+def greatest_product_diagonals( array, limit )
+    clockwise = __greatest_product_diagonals( array, limit ).
+                map { | d | __greatest_product_vector( d, limit ) }.max
+    anticlockwise = array.map( &:reverse ).transpose
+    anticlockwise = __greatest_product_diagonals( anticlockwise, limit ).
+                    map { | d | __greatest_product_vector( d, limit ) }.max
+    [ clockwise, anticlockwise ].max
+end
+
+def greatest_product( array, limit )
+    [ greatest_product_vector( array, limit ),
+      greatest_product_vector( array.transpose, limit ),
+      greatest_product_diagonals( array, limit ) ].max
 end
 
 input ="08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -55,5 +87,4 @@ input ="08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
         20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
         01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"
 
-input = input.lines.map{ | line | line.split.map{ | str | str.to_i } }
-puts greatest_product( input, 4 ).inject { | result, element | result = result * element }
+puts greatest_product( input.split.map( &:to_i ).each_slice( 20 ).to_a, 4 )

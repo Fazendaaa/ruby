@@ -29,7 +29,7 @@
 def number_of_divisors( num )
     divisors = []
 
-    for i in ( 1..Math.sqrt( num ).to_i + 1 ) do
+    for i in 1..Math.sqrt( num ).to_i do
         if 0 == num % i then
             if num/i == i then
                 divisors.push( i )
@@ -39,7 +39,6 @@ def number_of_divisors( num )
         end
     end
 
-    print "Divisors ", divisors, "\n"
     return divisors.length
 end
 
@@ -51,9 +50,7 @@ def highly_divisible_tirangular( min )
 
     while flag do
         triangular_numbers.push( ( 1..i ).reduce( 0, :+ ) )
-        print "\ntriangular: ", triangular_numbers[ i - 1 ], "\n"
         divisors = number_of_divisors( triangular_numbers[ i - 1 ] )
-        #puts divisors
         i = i + 1
 
         if divisors >= min then
@@ -61,8 +58,7 @@ def highly_divisible_tirangular( min )
         end
     end
 
-    print triangular_numbers
-    return triangular_numbers[ i ]
+    return triangular_numbers[ i - 2 ]
 end
 
-puts highly_divisible_tirangular( 5 )
+puts highly_divisible_tirangular( 500 )

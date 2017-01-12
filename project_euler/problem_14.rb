@@ -17,34 +17,23 @@
     is thought that all starting numbers finish at 1.
     Which starting number, under one million, produces the longest chain?
     NOTE: Once the chain starts the terms are allowed to go above one million.
+
+    note: huge thanks to steenslag for helped me out!
+    http://stackoverflow.com/questions/41621140/ruby-access-element-from-each-with-index/41623431#41623431
 =end
 
 def collatz_sequence( seed )
-    sequence = [ ]
+    sequence = [ seed ]
     n = seed
 
     while 1 != n
-        sequence.push( n )
         n = ( 0 == n % 2 ) ? n/2 : 3*n + 1
+        sequence.push( n )
     end
 
     return sequence
 end
 
-def longest_collatz_sequence( limit )
-    longest = 0
-
-    for i in 1..limit do
-        size = collatz_sequence( i ).length
-
-        if size > longest then
-            longest = size
-            index = i
-        end
-    end
-
-    return index
-end
 limit = 1_000_000
-#puts ( 1..limit ).each { | i | collatz_sequence( i ) }.max
-puts longest_collatz_sequence( limit )
+puts ( 1..limit ).map { | i | collatz_sequence( i ).length }.each_with_index.
+                  max.last + 1

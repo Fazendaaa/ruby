@@ -35,5 +35,7 @@ def collatz_sequence( seed )
 end
 
 limit = 1_000_000
+
+# => plus one because the array start indexing at zero
 puts ( 1..limit ).map { | i | collatz_sequence( i ).length }.each_with_index.
                   max.last + 1

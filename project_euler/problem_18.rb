@@ -32,7 +32,53 @@
     by  trying  every  route.  However, Problem 67, is the same challenge with a
     triangle  containing  one-hundred  rows; it cannot be solved by brute force,
     and requires a clever method! ;o)
+
+    note: articles that helped me out:
+        * http://www.gitta.info/Accessibiliti/en/html/Dijkstra_learningObject1.html
 =end
+
+class Node
+    def initialize( value )
+        @value = value
+        @vertices = []
+    end
+end
+
+class Graph
+    def initialize
+        @nodes = []
+        @length = @nodes.length
+    end
+
+    def add_node( node )
+        @nodes.push( node )
+    end
+end
+
+# => instead  of  returning  the  shortest  'possible'  path, it will return the
+# => longest
+def modified_dijkstra( graph, source )
+    distance = Hash.new( FLOAT::INFINITY )
+    previous = Hash.new( nil )
+    distance[ source ] = 0
+    q = graph.nodes.sort { | a, b | a.value <=> b.value }
+
+    while 0 != q.length do
+        u = q[ 0 ]
+        q.shift
+
+        for neighbor in u.vertices do
+            alt = distance[ u ] + dist_between( u, neighbor )
+
+            if alt < distance[ neighbor ] then
+                distance[ neighbor ] = alt
+                previous[ neighbor ] = u
+            end
+        end
+    end
+
+    return previous
+end
 
 def maximum_path_sum_i( triangle )
     print triangle

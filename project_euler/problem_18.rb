@@ -34,60 +34,119 @@
     and requires a clever method! ;o)
 
     note: articles that helped me out:
-        * http://www.gitta.info/Accessibiliti/en/html/Dijkstra_learningObject1.html
+        * https://www.quora.com/What-is-an-algorithm-to-find-a-longest-path-in-a-unweighted-directed-acyclic-graph
+        * http://cs.stackexchange.com/questions/11263/longest-path-in-an-undirected-tree-with-only-one-traversal/11264#11264
+        * https://rosettacode.org/wiki/Dijkstra's_algorithm#Ruby
 =end
 
-class Node
-    def initialize( value )
-        @value = value
-        @vertices = []
-    end
-end
+# ------------------------------ STRUCTURES ------------------------------------
 
 class Graph
-    def initialize
-        @nodes = []
-        @length = @nodes.length
-    end
+    Vertex = Struct.new( :name, :neighbours, :dist, :prev )
 
-    def add_node( node )
-        @nodes.push( node )
-    end
-end
-
-# => instead  of  returning  the  shortest  'possible'  path, it will return the
-# => longest
-def modified_dijkstra( graph, source )
-    distance = Hash.new( FLOAT::INFINITY )
-    previous = Hash.new( nil )
-    distance[ source ] = 0
-    q = graph.nodes.sort { | a, b | a.value <=> b.value }
-
-    while 0 != q.length do
-        u = q[ 0 ]
-        q.shift
-
-        for neighbor in u.vertices do
-            alt = distance[ u ] + dist_between( u, neighbor )
-
-            if alt < distance[ neighbor ] then
-                distance[ neighbor ] = alt
-                previous[ neighbor ] = u
-            end
+    def initialize( graph )
+        @vertices = Hash.new{ | h, k | h[ k ]= Vertex.new( k, [ ],
+                                               Float::INFINITY ) }
+        @edges = { }
+        graph.each do | ( v1, v2, dist ) |
+            @vertices[ v1 ].neighbours << v2
+            @edges[ [ v1, v2 ] ] = @edges[ [ v2, v1 ] ] = dist
         end
+
+        @dijkstra_source = nil
+   end
+
+   # => instead  of  returning  the  shortest  'possible'  path, it will return the
+   # => longest
+   def dijkstra( source )
+       return  if @dijkstra_source == source
+
+       q = @vertices.values
+
+       q.each do | v |
+           v.dist = Float::INFINITY
+           v.prev = nil
+       end
+
+       @vertices[ source ].dist = 0
+
+       until q.empty?
+           u = q.min_by { | vertex | vertex.dist }
+
+           break if u.dist == Float::INFINITY
+
+           q.delete(u)
+
+           u.neighbours.each do | v |
+               vv = @vertices[ v ]
+
+               if q.include?( vv ) then
+                   alt = u.dist + @edges[ [ u.name, v ] ]
+
+                   if alt < vv.dist
+                       vv.dist = alt
+                       vv.prev = u.name
+                   end
+               end
+           end
+       end
+
+       @dijkstra_source = source
+   end
+
+    def shortest_path( source, size )
+        dijkstra( source )
+        path = []
+
+        for i in 1..size
+            path.unshift( u )
+            u = @vertices[ u ].prev
+        end
+
+        return path, @vertices[ target ].dist
     end
 
-    return previous
+    def to_s
+        "#<%s vertices=%p edges=%p>" % [self.class.name, @vertices.values, @edges]
+    end
 end
+
+# --------------------------------- MAIN ---------------------------------------
 
 def maximum_path_sum_i( triangle )
-    print triangle
+    i = j = 0
+
+    for line in triangle do
+        if triangle.length > j then
+            for element in line do
+                source = "#{i},#{j}"
+                left_son = "#{i+1},#{j}"
+                right_son = "#{i+1},#{j+1}"
+                if triangle.length > i + 1 then
+                    left_value = triangle[ i + 1 ][ j ]
+                    right_value = triangle[ i + 1 ][ j + 1 ]
+                else
+                    left_value = nil
+                    right_value = nil
+                end
+                triangle[ i ][ j ] = [ source, left_son, left_value, nil ]
+                triangle[ i ][ j ] = [ source, right_son, right_value, nil ]
+                j = j + 1
+            end
+        end
+        j = 0
+        i = i + 1
+    end
+
+    g = Graph.new( triangle )
+    path, dist = g.shortest_path( triangle[ 0 ][ 0 ], triangle.length*triangle.length-1 )
+    puts "shortest path from has cost #{dist}:"
+    puts path.join(" -> ")
 end
 
-i = 1
 input_i = "3
           7 4
          2 4 6
         8 5 9 3".lines.map { | line | line.split.map( &:to_i ) }
 
-puts maximum_path_sum_i( input_i )
+maximum_path_sum_i( input_i )

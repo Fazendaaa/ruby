@@ -38,16 +38,30 @@ end
 
 def non_abundant_numbers
     sum = 0
+    abundant = []
+    result = []
 
     for i in 1..28_123 do
         divisors = all_divisors( i )
         divisors.pop
-        abundant = divisors.inject { | result, element | result += element }
-        abundant = 0 if nil == abundant
-        sum = sum + abundant if abundant <= i
+        sum = divisors.inject { | result, element | result += element }
+        sum = 0 if nil == sum
+        abundant.push( i ) if i < sum
     end
 
-    return sum
+    for i in abundant do
+        for j in abundant do
+            sum = i + j
+            if sum > 28_123 then
+                break
+            else
+                result.push( sum )
+            end
+        end
+    end
+
+    return ( 1..28_123 ).to_a - result
 end
 
-puts non_abundant_numbers
+puts non_abundant_numbers.
+     inject { | result, element | result = result + element }

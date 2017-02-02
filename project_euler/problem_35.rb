@@ -15,41 +15,35 @@ def sieve( limit )
     numbers[ 0 ] = numbers[ 1 ] =  false
 
     for i in 2..Math.sqrt( limit ).to_i do
-        ( i**2..limit ).step( i ) do | j |
-            numbers[ j ] = false
-        end if numbers[ i ]
+        (i**2..limit).step(i) do | j | numbers[ j ] = false end if numbers[ i ]
     end
 
     return numbers.each_index.select { | i | numbers[ i ] }
 end
 
-def all_divisors( number )
-    divisors = []
-
-    for i in 1..Math.sqrt( number ).to_i do
-        if 0 == number % i then
-            divisors.push( i )
-            divisors.push( number/i ) if number/i != i
-        end
-    end
-
-    return divisors
-end
-
 def circular_primes( limit )
+    hash = Hash.new( false )
     primes = sieve( limit )
     circular_primes = primes[ 0..3 ]
+
+    puts "Done 1"
+
+    primes.each do | prime |
+        hash[ prime ] = true
+    end
+
+    puts "Done 2"
 
     for prime in primes do
         tmp = []
         for new_number in prime.to_s.split( // ).permutation do
             new_number = new_number.join.to_i
-            tmp.push( new_number ) if 2 == all_divisors( new_number ).length
+            tmp.push( new_number ) if hash[ new_number ]
         end
         circular_primes.push( new_number ) if tmp.length > 1
     end
 
-    return circular_primes.flatten
+    return circular_primes.flatten.uniq.sort
 end
 
 puts circular_primes( 1_000_000 ).length

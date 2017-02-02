@@ -31,13 +31,17 @@ def circular_primes( limit )
     end
 
     for prime in primes do
+        tmp = []
         prime = prime.to_s
         for i in 1...prime.length do
             new_number = prime.split( '' ).rotate( i ).join( '' ).to_i
-            circular_primes.push( new_number ) if hash[ new_number ]
+            tmp.push( new_number ) if hash[ new_number ]
         end
+        # => in case of all rotations, aside the prime itself, are primes
+        circular_primes.push( tmp ) if prime.length-1 == tmp.length
     end
 
-    return circular_primes.sort.uniq
+    return circular_primes.flatten.sort.uniq
 end
+
 puts circular_primes( 1_000_000 ).length

@@ -26,24 +26,18 @@ def circular_primes( limit )
     primes = sieve( limit )
     circular_primes = primes[ 0..3 ]
 
-    puts "Done 1"
-
     primes.each do | prime |
         hash[ prime ] = true
     end
 
-    puts "Done 2"
-
     for prime in primes do
-        tmp = []
-        for new_number in prime.to_s.split( // ).permutation do
-            new_number = new_number.join.to_i
-            tmp.push( new_number ) if hash[ new_number ]
+        prime = prime.to_s
+        for i in 1...prime.length do
+            new_number = prime.split( '' ).rotate( i ).join( '' ).to_i
+            circular_primes.push( new_number ) if hash[ new_number ]
         end
-        circular_primes.push( new_number ) if tmp.length > 1
     end
 
-    return circular_primes.flatten.uniq.sort
+    return circular_primes.sort.uniq
 end
-
 puts circular_primes( 1_000_000 ).length

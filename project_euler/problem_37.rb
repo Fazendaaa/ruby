@@ -24,22 +24,24 @@ def sieve( limit )
 end
 
 def truncatable_primes( limit )
-    primes = sieve( 100 )[ 4..-1 ]
+    # => need to know an upper bound more accurate
+    primes = sieve( 1_000_000 )
     hash = Hash.new( false )
     truncatable = []
 
     primes.each do | prime | hash[ prime ] = true end
+    # => removing 2, 3, 5 and 7
+    primes = primes[ 4..-1 ]
 
     for prime in primes do
         break if truncatable.length == limit
-        new_number = prime.to_s.split.map( &:to_i )
-        flag = ( 0..new_number.length-1 ).all? { | i | hash[ new_number[ 0...i ].join ] &&
-                                                hash[ new_number[ i...-1 ].join ] }
-        #puts flag
-        truncatable.push( prime ) if flag
+        new_number = prime.to_s
+        truncatable.push( prime ) if ( 0...new_number.length ).all? { | i |
+                                        hash[ new_number[ 0..i ].to_i ] &&
+                                        hash[ new_number[ i..-1 ].to_i ] }
     end
 
     return truncatable
 end
 
-puts truncatable_primes( 11 )#.reduce( :+ )
+puts truncatable_primes( 11 ).reduce( :+ )

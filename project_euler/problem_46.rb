@@ -30,7 +30,7 @@ def goldbach_other_conjecture
 
 	while flag do
 		odd += 2
-		break if !sieve( odd + 1 ).any? { | p | is_twice_sqrt( odd - p ) } 
+		break if !sieve( odd ).any? { | p | is_twice_sqrt( odd - p ) } 
 	end
 
 	return odd

@@ -13,7 +13,8 @@ def is_prime( number )
 end
 
 def sieve( limit )
-    numbers = Array.new( limit ) { | i | true }
+    # => in case limit is a prime there's need to add one to count limit as prime
+    numbers = Array.new( limit + 1 ) { | i | true }
     numbers[ 0 ] = numbers[ 1 ] =  false
 
     for i in 2..Math.sqrt( limit ).to_i do

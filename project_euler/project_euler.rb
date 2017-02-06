@@ -38,3 +38,8 @@ def all_divisors( number )
 
     return divisors.sort
 end
+
+def pollard_rho( n )
+    factors = ( 2..n-1 ).detect { | e | 0 == n % e }
+    return factors ? ( [ factors ] + pollard_rho( n/factors ) ) : [ n ]
+end

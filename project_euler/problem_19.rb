@@ -18,23 +18,15 @@
     ( 1 Jan 1901 to 31 Dec 2000 )?
 =end
 
+require 'date'
+
 def counting_sundays( start, finish )
-    s_mon, s_day, s_year = start
-    f_mon, f_day, f_year = finish
-
-    # => it will return the number of leap years
-    leap_days = ( 1900..s_year ).
-                select { | year | 0 != year % 400 && 0 == year % 4 }
-    # => wich  weekday will be, given how many days has passed sience 1 Jan 1900
-    # => until de 1 Jan s_year
-    weekday = ( ( ( 8 * 31 + 3 * 30 + 28 ) * ( s_year - 1900 ) ) % 365 +
-              leap_days.length ) % 7
-
-    for year in s_year..f_year do
-        for month in 1..12 do
-
-        end
-    end
+    s_year, s_mon, s_day = start
+    f_year, f_mon, f_day = finish
+    
+    return Date.new( s_year, s_mon, s_day ).
+           upto( Date.new( f_year, f_mon, f_day ) ).
+           find_all { | d | d.mday == 1 && d.wday == 0 }.count
 end
 
-counting_sundays( [ 1, 1, 1901 ], [ 12, 31, 2000 ] )
+puts counting_sundays( [ 1901, 1, 1 ], [ 2000 , 12, 31] )

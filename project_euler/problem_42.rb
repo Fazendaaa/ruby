@@ -37,4 +37,4 @@ def coded_triangle_numbers( filename )
     return words.select { | word | hash[ triangle_number( word ) ] }
 end
 
-puts coded_triangle_numbers( "words.txt" ).length
+puts coded_triangle_numbers( "problem_42.txt" ).length

@@ -11,12 +11,23 @@
     forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20
     letters.  The  use  of  "and" when writing out numbers is in compliance with
     British usage.
+
+    Articles that helped me out:
+        *   http://stackoverflow.com/a/31605263/7092954
+        *   https://github.com/taimur-akhtar/to_words
+        *   http://stackoverflow.com/a/4308399/7092954
 =end
 
+require 'to_words'
+
 def number_letter_counts( limit )
-# => decimal numbers as key and the number of letters as value
-    hash = Hash[ 0 => 4, 1 => 3, 2 => 3, 3 => 5, 4 => 4, 5 => 4, 6 => 3, 7 => 5,
-                 8 => 5, 9 => 4 ]
+    sum = 0
+
+    for number in 1..limit do
+        sum += number.to_words.gsub(' ', '').length
+    end
+
+    return sum
 end
 
 puts number_letter_counts( 1_000 )

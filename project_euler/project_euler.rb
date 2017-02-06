@@ -14,7 +14,8 @@ end
 
 def sieve( limit )
     # => in case limit is a prime there's need to add one to count limit as prime
-    numbers = Array.new( limit + 1 ) { | i | true }
+    limit = limit + 1
+    numbers = Array.new( limit ) { | i | true }
     numbers[ 0 ] = numbers[ 1 ] =  false
 
     for i in 2..Math.sqrt( limit ).to_i do
@@ -39,7 +40,30 @@ def all_divisors( number )
     return divisors.sort
 end
 
-def pollard_rho( n )
-    factors = ( 2..n-1 ).detect { | e | 0 == n % e }
-    return factors ? ( [ factors ] + pollard_rho( n/factors ) ) : [ n ]
+def prime_factors( n )
+    factors = []
+    
+    check = proc do | p |
+        while( q, r = n.divmod( p )
+               r.zero? )
+            factors.push( p )
+            n = q
+        end
+    end
+
+    check[ 2 ]
+    check[ 3 ]
+    
+    p = 5
+    
+    while p * p <= n
+        check[ p ]
+        p += 2
+        check[ p ]
+        p += 4
+    end
+    
+    factors.push( n ) if n > 1
+    
+    return factors
 end

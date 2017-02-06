@@ -18,8 +18,7 @@
 =end
 
 def is_pentagon( number )
-	test = ( Math.sqrt( 1 + 24*number ) + 1.0 )/ 6.0
-	return test.to_i == test
+	return 0 == ( ( Math.sqrt( 1 + 24*number ) + 1.0 ) / 6.0 ) % 1
 end
 
 def pentagon_numbers_abs

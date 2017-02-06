@@ -14,13 +14,11 @@
 =end
 
 def is_pentagonal( pn )
-	test = ( Math.sqrt( 1 + 24*pn ) + 1.0 ) / 6.0
-	return test.to_i == test
+	return 0 == ( ( Math.sqrt( 1 + 24*pn ) + 1.0 ) / 6.0 ) % 1
 end
 
 def is_hexagonal( hn )
-	test = ( Math.sqrt( 1 + 8*hn ) + 1.0 ) / 4.0
-	return test.to_i == test
+	return 0 == ( ( Math.sqrt( 1 + 8*hn ) + 1.0 ) / 4.0 ) % 1
 end
 
 def triangular_pentagonal_hexagonal( limit )

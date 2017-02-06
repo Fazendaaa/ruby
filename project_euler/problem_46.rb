@@ -20,8 +20,7 @@
 require_relative 'project_euler'
 
 def is_twice_sqrt( number )
-	test = Math.sqrt( number / 2 )
-	return test.to_i == test
+	return Math.sqrt( number / 2 ) % 1 == 0
 end
 
 def goldbach_other_conjecture

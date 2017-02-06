@@ -29,13 +29,12 @@ def names_scores( filename )
 
     File.open( filename, "r" ) do | file |
         file.each_line do | line |
-            names.concat( line.split( /[w+",]/ ).select { | e | "" != e } )
+            names.concat( line.scan( /\w+/ ) )
         end
     end
 
-    names.sort.each_with_index.
+    return names.sort.each_with_index.
                map { | name, index | score_name( name ) * ( index + 1 ) }
 end
 
-puts names_scores( "problem_22.txt" ).
-     inject { | result, element | result = result + element }
+puts names_scores( "problem_22.txt" ).reduce( :+ )

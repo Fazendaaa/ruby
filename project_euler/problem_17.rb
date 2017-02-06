@@ -21,13 +21,7 @@
 require 'to_words'
 
 def number_letter_counts( limit )
-    sum = 0
-
-    for number in 1..limit do
-        sum += number.to_words.gsub(' ', '').length
-    end
-
-    return sum
+    return ( 1..limit ).inject( 0 ) { | sum, e | sum += e.to_words.gsub(' ', '').length }
 end
 
 puts number_letter_counts( 1_000 )

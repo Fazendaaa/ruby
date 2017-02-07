@@ -13,62 +13,63 @@
 	Find  the smallest  prime  which,  by   replacing  part  of  the number (not
 	necessarily  adjacent digits) with the same digit, is part of an eight prime
 	value family.
+
+	Articles that helped me out:
+		*	http://stackoverflow.com/a/8377194/7092954
 =end
 
 require_relative 'project_euler'
+
+# => will generate all possible masks for positions
+def generate_combinations( n )
+	# => since  the  first  combination will replace ALL digits and the last one
+	# => won't replace anythinh both won't be necessary
+	return [ true, false ].repeated_permutation( n ).to_a[ 1..-2 ]
+end
 
 def smallest_prime_digits_replacements( min )
 	n = 10
 	matches = []
 	hash = Hash.new( false )
+	masks = []
 
 	while matches.length < min do
 		n += 1
-
-		if is_prime( n ) then
-			#puts n
+		# => problably  a  little  awkward  but  since  hash is much faster then
+		# => is_prime  if hash[ combination ] prove to be true is_prime will not
+		# => be called and if this verification could be avoided there's need to
+		# => call it only the first time that the combination value appers
+		if hash[ n ] || is_prime( n ) then
+			hash[ n ] = true
 			prime = n.to_s.split( '' ).map( &:to_i )
-			length = prime.length
 			
-			# => adjacent digits
-			for i in 0..prime.length-1 do
-				for j in i..prime.length-1 do
-					#print "i: ", i, " j: ", j, "\n"
-					matches = []
-					tmp = ( i..j ).map { | e | prime[ e ] }
-					new_number = prime.clone
+			# => all  primes  that have that have same length will have the same
+			# => possible combinations
+			masks = generate_combinations( prime.length ) if masks.length != prime.length
 
-					for k in 0..9 do
-						( i..j ).each do | e | new_number[ e ] =k end
-						combination = new_number.join.to_i
-						#print combination, " "
-						if length == combination.to_s.length then
-							# => problably  a  little  awkward  but since has is
-							# => much faster then is_prime if hash[ combination]
-							# => prove  to  be  true is_prime will not be called
-							# => and  if  this  verification  could  be a voided
-							# => there's  no  need to call is_prime for the same
-							# => combination value only the first time
-							if hash[ combination ] || is_prime( combination )
-								matches.push( combination )
-								hash[ combination ] = true
-							end
+			for mask in masks do
+				matches = []
+				new_number = prime.clone
+				
+				for digit in 0..9 do
+					mask.each_with_index do | e, i | new_number[ i ] = digit if e end
+
+					possibility = new_number.join.to_i
+					
+					if prime.length == possibility.to_s.length then
+						if hash[ possibility ] || is_prime( possibility )
+							matches.push( possibility )
+							hash[ possibility ] = true
 						end
 					end
-					#print "\n"
-					
-					prime.each_with_index do | e, i | e = tmp[ i ] end
-					break if matches.length == min
 				end
-				#puts
+
 				break if matches.length == min
 			end
-
-			# => need to implement something to verify not-adjacent digits
 		end
 	end
 
 	return matches
 end
 
-print smallest_prime_digits_replacements( 7 ),"\n"
+puts smallest_prime_digits_replacements( 8 )[ 0 ]

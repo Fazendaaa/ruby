@@ -44,11 +44,11 @@ def smallest_prime_digits_replacements( min )
 						#print combination, " "
 						if length == combination.to_s.length then
 							# => problably  a  little  awkward  but since has is
-							# => much faster then is_prime if hash[ combination ]
+							# => much faster then is_prime if hash[ combination]
 							# => prove  to  be  true is_prime will not be called
-							# => and if this verification could be done over and
-							# => over again there's no need to call is_prime for
-							# => the same combination only the first one
+							# => and  if  this  verification  could  be a voided
+							# => there's  no  need to call is_prime for the same
+							# => combination value only the first time
 							if hash[ combination ] || is_prime( combination )
 								matches.push( combination )
 								hash[ combination ] = true

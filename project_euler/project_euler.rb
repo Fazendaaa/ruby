@@ -67,3 +67,10 @@ def prime_factors( n )
     
     return factors
 end
+
+def in_groups( n, arrray )
+  return [] if 0 > n
+  
+  slice_size = ( arrray.length / Float( n ) ).ceil
+  return arrray.each_slice( slice_size ).to_a
+end

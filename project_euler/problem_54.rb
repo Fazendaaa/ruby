@@ -65,7 +65,6 @@
 		*	http://stackoverflow.com/a/13634446/7092954
 		*	https://boardgamegeek.com/wiki/page/Standard_Deck_Playing_Card_Games&redirectedfrom=standard_deck_playing_card_game#
 		*	http://stackoverflow.com/a/76046/7092954
-		*	http://stackoverflow.com/a/17463812/7092954
 =end
 
 require_relative 'project_euler'
@@ -91,7 +90,7 @@ def __card_value( card )
 end
 
 def card_value( card )
-	number = card.split( '' )[ 0..-2 ].join.to_i
+	number = card.split( '' )[ 0 ].to_i
 	number = __card_value( card ) if 0 == number
 
 	return number
@@ -102,12 +101,12 @@ def card_suit( card )
 end
 
 def check_pair( n, hand )
-	return hand.find_all { | e | n == hand.count( e ) }.uniq
+	return hand.select { | e | hand.count( e ) == n }.uniq
 end
 
 def check_kind( n, hand )
 	cards = hand.map { | e | card_value( e ) }
-	return nil != cards.find { | e | n == cards.count( e ) } ? true : false
+	return nil != cards.select { | e | cards.count( e ) == n } ? true : false
 end
 
 # ============================ Hand functions ==================================
@@ -140,7 +139,7 @@ end
 # => All cards are consecutive values.
 def is_straight( hand )
 	cards = hand.map { | e | card_value( e ) }.sort
-	return ( 0..cards.length-2 ).all? { | i | cards[ i+1 ] - 1 == cards[ i ] }
+	return ( 1..cards.length-1 ).all? { | i | cards[ i ]-1 == cards[ i-1 ] }
 end
 
 # => All cards of the same suit.
@@ -150,19 +149,17 @@ end
 
 # => Three of a kind and a pair.
 def is_full_house( hand )
-	return is_three_of_a_kind( hand ) && ( is_one_pair( hand ) ||
-										   is_two_pair( hand ) )
+	return is_three_of_a_kind( hand ) && is_one_pair( hand )
 end
 
 # => All cards are consecutive values of same suit.
 def is_straight_flush( hand )
-	return 1 == hand.map { | e | card_suit( e ) }.uniq.length &&
-												  is_straight( hand )
+	return is_straight( hand ) && is_flush( hand )
 end
 
 # => Ten, Jack, Queen, King, Ace, in same suit.
 def is_royal_flush( hand )
-	return hand.map { | e | card_value( e ) }.sort == ( 10..14 ).to_a
+	return is_flush( hand ) && is_flush( hand )
 end
 
 # ============================ Game functions ==================================
@@ -185,14 +182,14 @@ def play_hand( hand )
 end
 
 def compare_hands( hand_1, hand_2 )
-	for i in 0..10 do
+	for i in 0..9 do
 		if hand_1[ i ] != hand_2[ i ] then
 			if hand_1[ i ]
 				winner = :Player_1
 			elsif hand_2[ i ]
 				winner = :Player_2
-			# => highest card, case
 			else
+				# => highest card case
 				winner = hand_1[ i ] > hand_2[ i ] ? :Player_1 : :Player_2
 			end
 			break
@@ -217,14 +214,4 @@ def poker_hands( filename )
 	return game
 end
 
-print poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }.length,"\n"
-#print is_one_pair( [ "5H", "5H", "6S", "6S", "7S" ] ), "\n"
-#print is_two_pair( [ "5H", "5H", "4S", "6S", "7S" ] ), "\n"
-#print is_three_of_a_kind( [ "5H", "5H", "6S", "6S", "6S" ] ), "\n"
-#print card_value( "QH" ), "\n"
-#print is_straight( [ "1H", "2H", "8S", "4S", "7S" ] ), "\n"
-#print is_flush( [ "1H", "2H", "8H", "4H", "7Q" ] ), "\n"
-#print is_full_house( [ "1H", "1Q", "1H", "4H", "4H" ] ), "\n"
-#print is_four_of_a_kind( [ "1H", "1Q", "1H", "4H", "4H" ] ), "\n"
-#print is_straight_flush( [ "1H", "2H", "3H", "5H", "4H" ] ), "\n"
-#print is_royal_flush( [ "10H", "9H", "JH", "KH", "QH" ] ), "\n"
+puts poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }.length

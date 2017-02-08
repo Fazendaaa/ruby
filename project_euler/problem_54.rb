@@ -75,7 +75,9 @@ require_relative 'project_euler'
 def __card_value( card )
 	number = card.split( '' )[ 0 ]
 
-	if 'J' == number
+	if 'T' == number
+		number = 10
+	elsif 'J' == number
 		number = 11
 	elsif 'Q' == number
 		number = 12
@@ -112,7 +114,7 @@ end
 
 # => Highest value card.
 def is_high_card( hand )
-	return hand.map { | e | card_value( card ) }.max
+	return hand.map { | e | card_value( e ) }.max
 end
 
 # => Two cards of the same value.
@@ -192,6 +194,7 @@ def compare_hands( hand_1, hand_2 )
 			# => highest card, case
 			else
 				winner = hand_1[ i ] > hand_2[ i ] ? :Player_1 : :Player_2
+			end
 			break
 		end
 	end
@@ -214,7 +217,7 @@ def poker_hands( filename )
 	return game
 end
 
-#print poker_hands( "problem_54.txt" ),"\n"
+print poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }.length,"\n"
 #print is_one_pair( [ "5H", "5H", "6S", "6S", "7S" ] ), "\n"
 #print is_two_pair( [ "5H", "5H", "4S", "6S", "7S" ] ), "\n"
 #print is_three_of_a_kind( [ "5H", "5H", "6S", "6S", "6S" ] ), "\n"

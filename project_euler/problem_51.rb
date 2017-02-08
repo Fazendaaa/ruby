@@ -16,6 +16,7 @@
 
 	Articles that helped me out:
 		*	http://stackoverflow.com/a/8377194/7092954
+		*	https://www.toptal.com/ruby/ruby-concurrency-and-parallelism-a-practical-primer
 =end
 
 require_relative 'project_euler'
@@ -23,7 +24,7 @@ require_relative 'project_euler'
 # => will generate all possible masks for positions
 def generate_combinations( n )
 	# => since  the  first  combination will replace ALL digits and the last one
-	# => won't replace anythinh both won't be necessary
+	# => won't replace anything both won't be necessary
 	return [ true, false ].repeated_permutation( n ).to_a[ 1..-2 ]
 end
 
@@ -41,6 +42,7 @@ def smallest_prime_digits_replacements( min )
 		# => call it only the first time that the combination value appers
 		if hash[ n ] || is_prime( n ) then
 			hash[ n ] = true
+
 			prime = n.to_s.split( '' ).map( &:to_i )
 			
 			# => all  primes  that have that have same length will have the same

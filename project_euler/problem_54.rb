@@ -190,7 +190,7 @@ def compare_hands( hand_1, hand_2 )
 				winner = :Player_2
 			else
 				# => highest card case
-				winner = hand_1[ i ] > hand_2[ i ] ? :Player_1 : :Player_2
+				winner = ( hand_1[ i ] > hand_2[ i ] ) ? :Player_1 : :Player_2
 			end
 			break
 		end
@@ -214,4 +214,10 @@ def poker_hands( filename )
 	return game
 end
 
-puts poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }.length
+result = poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }
+
+#for win in result do
+#	print win, "\n"
+#end
+
+puts result.length

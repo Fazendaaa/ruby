@@ -14,9 +14,9 @@ def permuted_multiples( limit )
 
 	while matches.length < limit do
 		n += 1
-		matches = ( 1..limit ).map { | e | e*n }
 		number = n.to_s.split( "" ).sort
-		matches = matches.select { | e | e.to_s.split( "" ).sort == number }
+		matches = ( 1..limit ).map { | e | e*n }.
+							  select { | e | e.to_s.split( "" ).sort == number }
 	end
 
 	return matches

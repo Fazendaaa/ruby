@@ -19,8 +19,8 @@
 	greater than one-million?	
 =end
 
-def combinatoric_selections( limit, floor )
-	matches = []
+def combinatoric_selections( limit )
+	selections = []
 	factorial = Hash.new( true )
 
 	for n in 1..limit do
@@ -36,12 +36,11 @@ def combinatoric_selections( limit, floor )
 			factorial[ diff_fact ] = ( 1..diff_fact ).reduce( 1, :* ) if factorial[ diff_fact ]
 			diff_fact = factorial[ diff_fact ]
 
-			c =  n_fact/( r_fact*diff_fact )
-			matches.push( c ) if c > floor
+			selections.push( n_fact/( r_fact*diff_fact ) )
 		end
 	end
 
-	return matches
+	return selections
 end
 
-puts combinatoric_selections( 100, 1_000_000 ).length
+puts combinatoric_selections( 100 ).select { | e | 1_000_000 < e }.length

@@ -103,7 +103,7 @@ def check_pair( n, hand )
 	return hand.find_all { | e | n == hand.count( e ) }.uniq
 end
 
-def is_of_a_kind( n, hand )
+def check_kind( n, hand )
 	cards = hand.map { | e | card_value( e ) }
 	return nil != cards.find { | e | n == cards.count( e ) } ? true : false
 end
@@ -127,12 +127,12 @@ end
 
 # => Three cards of the same value.
 def is_three_of_a_kind( hand )
-	return is_of_a_kind( 3, hand )
+	return check_kind( 3, hand )
 end
 
 # => Four cards of the same value.
 def is_four_of_a_kind( hand )
-	return is_of_a_kind( 4, hand )
+	return check_kind( 4, hand )
 end
 
 # => All cards are consecutive values.
@@ -148,12 +148,14 @@ end
 
 # => Three of a kind and a pair.
 def is_full_house( hand )
-	return is_three_of_a_kind( hand ) && ( is_one_pair( hand ) || is_two_pair( hand ) )
+	return is_three_of_a_kind( hand ) && ( is_one_pair( hand ) ||
+										   is_two_pair( hand ) )
 end
 
 # => All cards are consecutive values of same suit.
 def is_straight_flush( hand )
-	return 1 == hand.map { | e | card_suit( e ) }.uniq.length && is_straight( hand )
+	return 1 == hand.map { | e | card_suit( e ) }.uniq.length &&
+												  is_straight( hand )
 end
 
 # => Ten, Jack, Queen, King, Ace, in same suit.
@@ -163,37 +165,38 @@ end
 
 # ============================ Game functions ==================================
 
-=begin
-		* High Card: Highest value card.
-		* One Pair: Two cards of the same value.
-		* Two Pairs: Two different pairs.
-		* Three of a Kind: Three cards of the same value.
-		* Straight: All cards are consecutive values.
-		* Flush: All cards of the same suit.
-		* Full House: Three of a kind and a pair.
-		* Four of a Kind: Four cards of the same value.
-		* Straight Flush: All cards are consecutive values of same suit.
-		* Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.	
-=end
-
 def play_hand( hand )
-	score = []
-	high_car = is_high_card( hand )
-	one_pair = is_one_pair( hand )
-	two_pair = is_two_pair( hand )
-	three_of_a_kind = is_three_of_a_kind( hand )
-	straight = is_straight( hand )
-	flush = is_flush( hand )
-	full_house = is_full_house( hand )
-	four_of_a_kind = is_four_of_a_kind( hand )
-	straight_flush = is_straight_flush( hand )
-	royal_flush = is_royal_flush( hand )
+	score = Array.new( 10 )
 
-
+	score[ 0 ] = is_royal_flush( hand )
+	score[ 1 ] = is_straight_flush( hand )
+	score[ 2 ] = is_four_of_a_kind( hand )
+	score[ 3 ] = is_full_house( hand )
+	score[ 4 ] = is_flush( hand )
+	score[ 5 ] = is_straight( hand )
+	score[ 6 ] = is_three_of_a_kind( hand )
+	score[ 7 ] = is_two_pair( hand )
+	score[ 8 ] = is_one_pair( hand )
+	score[ 9 ] = is_high_card( hand )
+	
+	return score
 end
 
 def compare_hands( hand_1, hand_2 )
-
+	for i in 0..10 do
+		if hand_1[ i ] != hand_2[ i ] then
+			if hand_1[ i ]
+				winner = :Player_1
+			elsif hand_2[ i ]
+				winner = :Player_2
+			# => highest card, case
+			else
+				winner = hand_1[ i ] > hand_2[ i ] ? :Player_1 : :Player_2
+			break
+		end
+	end
+	
+	return winner
 end
 
 def poker_hands( filename )
@@ -202,9 +205,8 @@ def poker_hands( filename )
 	File.open( filename, "r" ) do | file |
 		file.each_line do | line |
 			player_1, player_2 = in_groups( 2, line.scan( /\w+/ ) )
-			hand_1 = play_hand( player_1 )
-			hand_2 = play_hand( player_2 )
-			winner = compare_hands( hand_1, hand_2 )
+			winner = compare_hands( play_hand( player_1 ),
+									play_hand( player_2 ) )
 			game.push( [ player_1, player_2, winner ] )
 		end
 	end

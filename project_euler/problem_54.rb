@@ -55,6 +55,12 @@
 
 	How many hands does Player 1 win?
 
+	obs:
+		S = Spades
+		H = Hearts
+		D = Diamonds
+		C = Clubs
+
 	Articles that helped me out:
 		*	http://stackoverflow.com/a/13634446/7092954
 		*	https://boardgamegeek.com/wiki/page/Standard_Deck_Playing_Card_Games&redirectedfrom=standard_deck_playing_card_game#
@@ -64,12 +70,7 @@
 
 require_relative 'project_euler'
 
-=begin
-	S = Spades
-	H = Hearts
-	D = Diamonds
-	C = Clubs
-=end
+# ============================ Base functions ==================================
 
 def __card_value( card )
 	number = card.split( '' )[ 0 ]
@@ -102,54 +103,78 @@ def check_pair( n, hand )
 	return hand.find_all { | e | n == hand.count( e ) }.uniq
 end
 
+def is_of_a_kind( n, hand )
+	cards = hand.map { | e | card_value( e ) }
+	return nil != cards.find { | e | n == cards.count( e ) } ? true : false
+end
+
+# ============================ Hand functions ==================================
+
+# => Highest value card.
 def is_high_card( hand )
 	return hand.map { | e | card_value( card ) }.max
 end
 
+# => Two cards of the same value.
 def is_one_pair( hand )
 	return 1 == check_pair( 2, hand ).length ? true : false
 end
 
+# => Two different pairs.
 def is_two_pair( hand )
 	return 2 == check_pair( 2, hand ).length ? true : false
 end
 
+# => Three cards of the same value.
 def is_three_of_a_kind( hand )
-	return nil != hand.find { | e | 3 == hand.count( e ) } ? true : false
+	return is_of_a_kind( 3, hand )
 end
 
+# => Four cards of the same value.
+def is_four_of_a_kind( hand )
+	return is_of_a_kind( 4, hand )
+end
+
+# => All cards are consecutive values.
 def is_straight( hand )
 	cards = hand.map { | e | card_value( e ) }.sort
 	return ( 0..cards.length-2 ).all? { | i | cards[ i+1 ] - 1 == cards[ i ] }
 end
-	
+
+# => All cards of the same suit.
 def is_flush( hand )
 	return 1 == hand.map { | e | card_suit( e ) }.uniq.length ? true : false
 end
 
-=begin
-	* Full House: Three of a kind and a pair.
-	* Four of a Kind: Four cards of the same value.
-	* Straight Flush: All cards are consecutive values of same suit.
-	* Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
-=end
-
+# => Three of a kind and a pair.
 def is_full_house( hand )
 	return is_three_of_a_kind( hand ) && ( is_one_pair( hand ) || is_two_pair( hand ) )
 end
 
-def is_four_of_a_kind( hand )
-
-end
-
+# => All cards are consecutive values of same suit.
 def is_straight_flush( hand )
-
+	return 1 == hand.map { | e | card_suit( e ) }.uniq.length && is_straight( hand )
 end
 
+# => Ten, Jack, Queen, King, Ace, in same suit.
 def is_royal_flush( hand )
-
+	return hand.map { | e | card_value( e ) }.sort == ( 10..14 ).to_a
 end
 
+# ============================ Game functions ==================================
+
+=begin
+		* High Card: Highest value card.
+		* One Pair: Two cards of the same value.
+		* Two Pairs: Two different pairs.
+		* Three of a Kind: Three cards of the same value.
+		* Straight: All cards are consecutive values.
+		* Flush: All cards of the same suit.
+		* Full House: Three of a kind and a pair.
+		* Four of a Kind: Four cards of the same value.
+		* Straight Flush: All cards are consecutive values of same suit.
+		* Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.	
+=end
 
 def play_hand( hand )
 	score = []
@@ -190,8 +215,11 @@ end
 #print poker_hands( "problem_54.txt" ),"\n"
 #print is_one_pair( [ "5H", "5H", "6S", "6S", "7S" ] ), "\n"
 #print is_two_pair( [ "5H", "5H", "4S", "6S", "7S" ] ), "\n"
-#print is_three_of_a_kind( [ "5H", "5H", "6S", "6S", "9S" ] ), "\n"
+#print is_three_of_a_kind( [ "5H", "5H", "6S", "6S", "6S" ] ), "\n"
 #print card_value( "QH" ), "\n"
 #print is_straight( [ "1H", "2H", "8S", "4S", "7S" ] ), "\n"
 #print is_flush( [ "1H", "2H", "8H", "4H", "7Q" ] ), "\n"
-print is_full_house( [ "1H", "1H", "1H", "4H", "4Q" ] ), "\n"
+#print is_full_house( [ "1H", "1Q", "1H", "4H", "4H" ] ), "\n"
+#print is_four_of_a_kind( [ "1H", "1Q", "1H", "4H", "4H" ] ), "\n"
+#print is_straight_flush( [ "1H", "2H", "3H", "5H", "4H" ] ), "\n"
+#print is_royal_flush( [ "10H", "9H", "JH", "KH", "QH" ] ), "\n"

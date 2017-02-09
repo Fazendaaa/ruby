@@ -74,3 +74,7 @@ def in_groups( n, arrray )
   slice_size = ( arrray.length / Float( n ) ).ceil
   return arrray.each_slice( slice_size ).to_a
 end
+
+def is_palindromic( string )
+    return string == string.reverse
+end

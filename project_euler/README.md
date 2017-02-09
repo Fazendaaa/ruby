@@ -1,6 +1,6 @@
 # PROJECT EULER
 
-![Euler's Picture](https://www.biography.com/.image/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1NDE1MzI2MjIz/leonhard-euler-21342391-1-402.jpg){:style="float: right;margin-right: 7px;margin-top: 7px;"}
+<img align="right" src="https://www.biography.com/.image/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1NDE1MzI2MjIz/leonhard-euler-21342391-1-402.jpg">
 
 Logo após começar a programar em _Ruby_ vi a necessidade de fixar tal conhecimento, graças ao **[The Odin Project](http://www.theodinproject.com "The Odin Project's Homepage" )** conheci o **[Project Euler](https://projecteuler.net "Project Euler's Homepage")**. Onde as tarefas apresentadas são bons desafios para quem já possui uma base de programação e procura dificultar um pouco com problemas apresentados de maneira clara e concisa.
 

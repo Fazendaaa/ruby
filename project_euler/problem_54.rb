@@ -106,7 +106,7 @@ end
 
 def check_kind( n, hand )
 	cards = hand.map { | e | card_value( e ) }
-	return nil != cards.select { | e | cards.count( e ) == n } ? true : false
+	return cards.select { | e | cards.count( e ) == n }
 end
 
 # ============================ Hand functions ==================================
@@ -118,48 +118,52 @@ end
 
 # => Two cards of the same value.
 def is_one_pair( hand )
-	return 1 == check_pair( 2, hand ).length ? true : false
+	pair = check_pair( 2, hand )
+	return 1 == pair.length ? pair.map{ | e | card_value( e ) } : 0
 end
 
 # => Two different pairs.
 def is_two_pair( hand )
-	return 2 == check_pair( 2, hand ).length ? true : false
+	pair = check_pair( 2, hand )
+	return 2 == pair.length ? pair.map{ | e | card_value( e ) }.sort.reverse : 0
 end
 
 # => Three cards of the same value.
 def is_three_of_a_kind( hand )
-	return check_kind( 3, hand )
+	kind = check_kind( 3, hand )
+	return 0 != kind.length ? kind : 0
 end
 
 # => Four cards of the same value.
 def is_four_of_a_kind( hand )
-	return check_kind( 4, hand )
+	kind = check_kind( 4, hand )
+	return 0 != kind.length ? kind : 0
 end
 
 # => All cards are consecutive values.
 def is_straight( hand )
 	cards = hand.map { | e | card_value( e ) }.sort
-	return ( 1..cards.length-1 ).all? { | i | cards[ i ]-1 == cards[ i-1 ] }
+	return ( 1..cards.length-1 ).all? { | i | cards[ i ]-1 == cards[ i-1 ] } ? 1 : 0
 end
 
 # => All cards of the same suit.
 def is_flush( hand )
-	return 1 == hand.map { | e | card_suit( e ) }.uniq.length ? true : false
+	return 1 == hand.map { | e | card_suit( e ) }.uniq.length ? 1 : 0
 end
 
 # => Three of a kind and a pair.
 def is_full_house( hand )
-	return is_three_of_a_kind( hand ) && is_one_pair( hand )
+	return ( is_three_of_a_kind( hand ) && is_one_pair( hand ) ) ? 1 : 0
 end
 
 # => All cards are consecutive values of same suit.
 def is_straight_flush( hand )
-	return is_straight( hand ) && is_flush( hand )
+	return ( is_straight( hand ) && is_flush( hand ) ) ? 1 : 0
 end
 
 # => Ten, Jack, Queen, King, Ace, in same suit.
 def is_royal_flush( hand )
-	return is_flush( hand ) && is_flush( hand )
+	return ( is_flush( hand ) && is_flush( hand ) ) ? 1 : 0
 end
 
 # ============================ Game functions ==================================
@@ -184,14 +188,24 @@ end
 def compare_hands( hand_1, hand_2 )
 	for i in 0..9 do
 		if hand_1[ i ] != hand_2[ i ] then
-			if hand_1[ i ]
-				winner = :Player_1
-			elsif hand_2[ i ]
-				winner = :Player_2
+			if Fixnum == hand_1[ i ].class && Fixnum == hand_2[ i ].class then
+				if hand_1[ i ] > hand_2[ i ] then
+					winner = :Player_1
+				elsif hand_2[ i ] > hand_1[ i ] then
+					winner = :Player_2
+				end
 			else
+				# => one or two pairs case
+				if Fixnum == hand_1[ i ].class && Array == hand_2[ i ].class then
+					winner = hand_2[ i ].all? { | e | hand_1[ i ] <= e } ? :Player_2 : :Player_1
+				elsif Array == hand_1[ i ].class && Fixnum == hand_2[ i ].class then
+					winner = hand_1[ i ].all? { | e | hand_2[ i ] <= e } ? :Player_1 : :Player_2
 				# => highest card case
-				winner = ( hand_1[ i ] > hand_2[ i ] ) ? :Player_1 : :Player_2
+				else
+					winner = ( hand_1[ i ] > hand_2[ i ] ) ? :Player_1 : :Player_2
+				end
 			end
+
 			break
 		end
 	end
@@ -214,10 +228,4 @@ def poker_hands( filename )
 	return game
 end
 
-result = poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }
-
-#for win in result do
-#	print win, "\n"
-#end
-
-puts result.length
+puts poker_hands( "problem_54.txt" ).select { | e | :Player_1 == e[ 2 ] }.length

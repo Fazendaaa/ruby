@@ -119,19 +119,20 @@ end
 # => Two cards of the same value.
 def is_one_pair( hand )
 	pair = check_pair( 2, hand )
-	return 1 == pair.length ? pair.map{ | e | card_value( e ) } : 0
+	return 1 == pair.length ? card_value( pair[ 0 ] ) : 0
 end
 
 # => Two different pairs.
 def is_two_pair( hand )
 	pair = check_pair( 2, hand )
-	return 2 == pair.length ? pair.map{ | e | card_value( e ) }.sort.reverse : 0
+	return 2 == pair.length ? pair.map{ | e | card_value( e ) }.sort.reverse :
+							  [ 0 ]
 end
 
 # => Three cards of the same value.
 def is_three_of_a_kind( hand )
 	kind = check_kind( 3, hand )
-	return 0 != kind.length ? kind : 0
+	return 0 != kind.length ? kind : [ 0 ]
 end
 
 # => Four cards of the same value.
@@ -143,7 +144,8 @@ end
 # => All cards are consecutive values.
 def is_straight( hand )
 	cards = hand.map { | e | card_value( e ) }.sort
-	return ( 1..cards.length-1 ).all? { | i | cards[ i ]-1 == cards[ i-1 ] } ? 1 : 0
+	return ( 1..cards.length-1 ).all? { | i | cards[ i ]-1 == cards[ i-1 ] } ?
+	1 : 0
 end
 
 # => All cards of the same suit.
@@ -171,41 +173,25 @@ end
 def play_hand( hand )
 	score = Array.new( 10 )
 
-	score[ 0 ] = is_royal_flush( hand )
-	score[ 1 ] = is_straight_flush( hand )
-	score[ 2 ] = is_four_of_a_kind( hand )
-	score[ 3 ] = is_full_house( hand )
-	score[ 4 ] = is_flush( hand )
-	score[ 5 ] = is_straight( hand )
-	score[ 6 ] = is_three_of_a_kind( hand )
-	score[ 7 ] = is_two_pair( hand )
-	score[ 8 ] = is_one_pair( hand )
-	score[ 9 ] = is_high_card( hand )
+	score[ 0 ] = [ is_royal_flush( hand ) ]
+	score[ 1 ] = [ is_straight_flush( hand ) ]
+	score[ 2 ] = [ is_four_of_a_kind( hand ) ]
+	score[ 3 ] = [ is_full_house( hand ) ]
+	score[ 4 ] = [ is_flush( hand ) ]
+	score[ 5 ] = [ is_straight( hand ) ]
+	score[ 6 ] =   is_three_of_a_kind( hand )
+	score[ 7 ] =   is_two_pair( hand )
+	score[ 8 ] = [ is_one_pair( hand ) ]
+	score[ 9 ] = [ is_high_card( hand ) ]
 	
 	return score
 end
 
 def compare_hands( hand_1, hand_2 )
 	for i in 0..9 do
-		if hand_1[ i ] != hand_2[ i ] then
-			if Fixnum == hand_1[ i ].class && Fixnum == hand_2[ i ].class then
-				if hand_1[ i ] > hand_2[ i ] then
-					winner = :Player_1
-				elsif hand_2[ i ] > hand_1[ i ] then
-					winner = :Player_2
-				end
-			else
-				# => one or two pairs case
-				if Fixnum == hand_1[ i ].class && Array == hand_2[ i ].class then
-					winner = hand_2[ i ].all? { | e | hand_1[ i ] <= e } ? :Player_2 : :Player_1
-				elsif Array == hand_1[ i ].class && Fixnum == hand_2[ i ].class then
-					winner = hand_1[ i ].all? { | e | hand_2[ i ] <= e } ? :Player_1 : :Player_2
-				# => highest card case
-				else
-					winner = ( hand_1[ i ] > hand_2[ i ] ) ? :Player_1 : :Player_2
-				end
-			end
-
+		if !hand_1[ i ].all? { | a | hand_2[ i ].all? { | b | a == b } } then
+			winner = hand_1[i].all?{ |a| hand_2[ i ].all? { | b | a >= b } } ?
+					:Player_1 : :Player_2
 			break
 		end
 	end

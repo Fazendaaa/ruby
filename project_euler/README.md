@@ -32,7 +32,7 @@ Além disso existe um arquivo **project_euler.rb** com as funções que recorren
 
 ## Referências
 
-Além disso, todas as referências utilizadas também estarão igualmente listadas ao final de cada descrição. Seja ela desde uma página da [Wikipédia](https://www.wikipedia.org "Wikipedia's homepage") que eu utilizei para entender melhor o conceito por trás da tarefa, ou até mesmo a página de outras pessoas que já realizaram tais tarefas uma vez que para tarefas que requerem muito conhecimento matemático o problema não fica tão claro. Neste último caso vale agradecer ao **[MathBlog](http://www.mathblog.dk/category/solutions/project-euler/ "MathBlog's Project Euler page" )** pelo incrível conteúdo que conseguiu produzir muito bem explicado e carregado de referências. ~~ Algum dia espero poder dizer o mesmo de mim. ~~
+Além disso, todas as referências utilizadas também estarão igualmente listadas ao final de cada descrição. Seja ela desde uma página da [Wikipédia](https://www.wikipedia.org "Wikipedia's homepage") que eu utilizei para entender melhor o conceito por trás da tarefa, ou até mesmo a página de outras pessoas que já realizaram tais tarefas uma vez que para tarefas que requerem muito conhecimento matemático o problema não fica tão claro. Neste último caso vale agradecer ao **[MathBlog](http://www.mathblog.dk/category/solutions/project-euler/ "MathBlog's Project Euler page" )** pelo incrível conteúdo que conseguiu produzir muito bem explicado e carregado de referências. ~~Algum dia espero poder dizer o mesmo de mim.~~
 
 ***
 

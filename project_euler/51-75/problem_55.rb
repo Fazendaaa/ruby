@@ -35,7 +35,29 @@
 	theoretical nature of Lychrel numbers.	
 =end
 
-def lychrel_numbers( limit )
+require_relative '../project_euler'
+
+def lychrel_numbers( limit, iterations=50 )
+	matches = []
+
+	for number in 1..limit do
+		lychrel = true
+		new_number = number
+
+		iterations.times do
+			reverse = new_number.to_s.reverse.to_i
+			new_number += reverse
+
+		 	if is_palindromic( new_number.to_s ) then
+		 		lychrel = false
+		 		break
+		 	end
+		end
+
+		matches.push( number ) if lychrel
+	end
+
+	return matches
 end
 
-puts lychrel_numbers( 10_000 )
+puts lychrel_numbers( 10_000 ).length

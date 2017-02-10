@@ -67,7 +67,8 @@ def xor_decryption( filename )
 		end
 	}
 
-	return decrypted
+	# => case didn't find a key decrpted will recieve keys
+	return keys.length != decrypted.length ? decrypted : nil
 end
 
 message = xor_decryption( "input/problem_59.txt" )

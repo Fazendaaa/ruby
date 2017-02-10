@@ -40,7 +40,7 @@
 
 require 'ruby-dictionary'
 
-def is_readable( text, dictionary, key )
+def is_readable( text, dictionary )
 	words = text.join.gsub( /[^a-zA-Z]/, " " ).split( " " )
 	return words.all? { | e | dictionary.exists?( e ) }
 end
@@ -59,11 +59,11 @@ def xor_decryption( filename )
 		end
 	end
 	
-	encrypted.map!( &:to_i )
 	decrypted = catch( :finished ) {
+		encrypted.map!( &:to_i )
 		for key in keys do
 			words = encrypted.each_with_index.map { | e, i | ( e ^ key[ i % 3 ] ).chr }
-			throw :finished, words if is_readable( words, dictionary, key )
+			throw :finished, words if is_readable( words, dictionary )
 		end
 	}
 
@@ -71,7 +71,6 @@ def xor_decryption( filename )
 end
 
 message = xor_decryption( "input/problem_59.txt" )
-puts message.map { | e | e.ord }.reduce( :+ )
-
 # => want to see the decrpyted message? Just uncomment the line bellow
 #puts message.join
+puts message.map { | e | e.ord }.reduce( :+ )

@@ -10,17 +10,21 @@
 
 <div align="justify">As atividades estarão com seu status de andamento bem explicito nos commits, como por exemplo:</div>
 
+
 * [NOT SOLVED] = quando a tarefa está em desenvolvimento.
 * [SOLVED] = tarefa finalizada e estável.
-<div style="text-align: justify">Todas os status serão seguidos por uma explicação referente a última alteração no código.</div>
+
+<div align="justify">Todas os status serão seguidos por uma explicação referente a última alteração no código.</div>
 
 <div align="justify">Todas as atividades foram implementadas em Ruby apenas, a diferença é que em alguns exercícios alguma biblioteca não padrão pode ter sido utilizada. Todavia, nesses casos ela será listada ao final do enunciado.
 
 <div align="justify">Para rodar uma tarefa basta digitar:</div>
 
+
 `$ ruby 'arquivo da tarefa'`
 
 <div align="justify">Para se instalar uma bilioteca, ou uma [_Gem_](http://guides.rubygems.org/rubygems-basics/  "Ruby's Gem basics page") como é conhecido em Ruby, basta seguir os seguintes comandos:</div>
+
 
 `$ gem install 'nome da gem'`
 

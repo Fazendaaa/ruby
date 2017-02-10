@@ -19,3 +19,5 @@ A friends said to try Ruby and I started with **[Learn Ruby The Hard Way](https:
 ## Project Euler
 
 Projects that I found to be one of the most interesting for those who want to do something in a new language.
+
+>"There’s something magical about the way that Ruby just flows from your fingertips." **[Ben Lewis](https://blog.engineyard.com/2015/five-ruby-methods-you-should-be-using)**

@@ -78,3 +78,13 @@ end
 def is_palindromic( string )
     return string == string.reverse
 end
+
+def next_prime( number )
+    n = number + 1
+
+    while !is_prime( n ) do
+        n += 1
+    end
+
+    return n
+end

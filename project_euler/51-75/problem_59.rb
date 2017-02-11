@@ -41,17 +41,13 @@
 require 'ruby-dictionary'
 
 def is_readable( text, dictionary )
-	words = text.join.gsub( /[^a-zA-Z]/, " " ).split( " " )
-	return words.all? { | e | dictionary.exists?( e ) }
+	return text.join.gsub( /[^a-zA-Z]/, " " ).split( " " ).
+				all? { | e | dictionary.exists?( e ) }
 end
 
 def xor_decryption( filename )
 	dictionary = Dictionary.from_file( "input/words.txt" )
 	encrypted = []
-	# => checking  all  possibless  three  lower  case  characters  as  key from
-	# => "a" = 97 to "z" = 122
-	lowercase = ( 97..122 ).to_a
-	keys = lowercase.product( lowercase, lowercase )
 
 	File.open( filename, "r" ) do | file | 
 		file.each_line do | line |
@@ -61,14 +57,19 @@ def xor_decryption( filename )
 	
 	decrypted = catch( :finished ) {
 		encrypted.map!( &:to_i )
-		for key in keys do
-			words = encrypted.each_with_index.map { | e, i | ( e ^ key[ i % 3 ] ).chr }
+		# => checking  all  possibless  three lower case as key from "a" = 97 to
+		# => "z" = 122
+		for key in ( 97..122 ).to_a.permutation( 3 ) do
+			words = encrypted.each_with_index.map { | e, i |
+													( e ^ key[ i % 3 ] ).chr }
 			throw :finished, words if is_readable( words, dictionary )
 		end
+
+		# => case didn't find a key decrpted will recieve nil
+		throw :finished, nil
 	}
 
-	# => case didn't find a key decrpted will recieve keys
-	return keys.length != decrypted.length ? decrypted : nil
+	return decrypted
 end
 
 message = xor_decryption( "input/problem_59.txt" )

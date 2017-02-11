@@ -80,10 +80,10 @@ def is_palindromic( string )
 end
 
 def next_prime( number )
-    n = number + 1
+    n = ( 0 == number + 1 % 2 ) ? number + 2 : number + 1
 
     while !is_prime( n ) do
-        n += 1
+        n += 2
     end
 
     return n

@@ -28,8 +28,8 @@ def prime_pair_sets( min )
 	while matches < n_permutation do
 		prime = next_prime( prime )
 		primes.push( prime )
-		puts prime
 
+		# => all the limbo in process begin down here
 		for a in primes.combination( min ) do
 			matches = 0
 
@@ -39,14 +39,14 @@ def prime_pair_sets( min )
 				if hash[ new_number ] || is_prime( new_number ) then
 					hash[ new_number ] = new_number
 					matches += 1
-				# => all numbers must be primes
 				else
+					# => all numbers must be primes
 					break
 				end
 			end
 
 
-			if matches == n_permutation then
+			if matches >= n_permutation then
 				pair = a
 				break
 			end
@@ -56,4 +56,4 @@ def prime_pair_sets( min )
 	return pair
 end
 
-puts prime_pair_sets( 4 )
+puts prime_pair_sets( 5 ).reduce( :+ )

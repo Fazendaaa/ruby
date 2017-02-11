@@ -28,8 +28,9 @@ def prime_pair_sets( min )
 	while matches < n_permutation do
 		prime = next_prime( prime )
 		primes.push( prime )
+		puts prime
 
-		for a in primes.permutation( min ) do
+		for a in primes.combination( min ) do
 			matches = 0
 
 			for b in a.permutation( 2 ) do

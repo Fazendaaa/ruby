@@ -12,7 +12,7 @@ def is_prime( number )
     return true
 end
 
-def sieve( limit )
+def erastosthenes_sieve( limit )
     # => in case limit is a prime there's need to add one to count limit as prime
     limit = limit + 1
     numbers = Array.new( limit ) { | i | true }

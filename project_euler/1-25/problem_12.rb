@@ -21,44 +21,28 @@
     What  is  the  value  of the first triangle number to have over five hundred
     divisors?
 
-    note: for more read -- http://www.mathsisfun.com/algebra/triangular-numbers.html
+                                Answer: 76576500
+
+    Helped me out:
+        *   http://www.mathsisfun.com/algebra/triangular-numbers.html
 =end
 
 #!/usr/bin/ruby
 
-def number_of_divisors( num )
-    divisors = []
-
-    for i in 1..Math.sqrt( num ).to_i do
-        if 0 == num % i then
-            if num/i == i then
-                divisors.push( i )
-            else
-                divisors.push( i, num/i )
-            end
-        end
-    end
-
-    return divisors.length
-end
+require_relative '../project_euler'
 
 def highly_divisible_tirangular( min )
-    triangular_numbers = [ ]
-    flag = true
-    i = 1
+    triangular_numbers = [ 1 ]
     divisors = 0
+    n = 1
 
-    while flag do
-        triangular_numbers.push( ( 1..i ).reduce( 0, :+ ) )
-        divisors = number_of_divisors( triangular_numbers[ i - 1 ] )
-        i = i + 1
-
-        if divisors >= min then
-            flag = false
-        end
+    while divisors < min do
+        n += 1
+        triangular_numbers.push( triangular_numbers.last + n )
+        divisors = all_divisors( triangular_numbers.last ).length
     end
 
-    return triangular_numbers[ i - 2 ]
+    return triangular_numbers.last
 end
 
 puts highly_divisible_tirangular( 500 )

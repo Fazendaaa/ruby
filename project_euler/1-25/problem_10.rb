@@ -2,24 +2,14 @@
                         Summation of primes
 
     The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
     Find the sum of all the primes below two million.
+
+                        Answer: 142913828922
 =end
 
-def erastosthenes_sieve( limit )
-    numbers = Array.new( limit ) { | i | true }
-    numbers[ 0 ] = false
-    numbers[ 1 ] = false
-    max = ( Math.sqrt( limit ) ).to_i
+#!/usr/bin/ruby
 
-    for i in 2..max do
-        if numbers[ i ] then
-            ( i**2..limit ).step( i ) do | j |
-                numbers[ j ] = false
-            end
-        end
-    end
+require_relative '../project_euler'
 
-    return numbers.each_index.select { | i | true == numbers[ i ] }
-end
-
-puts erastosthenes_sieve( 2_000_000 ).inject { | result, element | result = result + element }
+puts erastosthenes_sieve( 2_000_000 ).reduce( :+ )

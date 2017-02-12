@@ -29,9 +29,12 @@
     What  is the greatest product of four adjacent numbers in the same direction
     ( up, down, left, right, or diagonally ) in the 20×20 grid?
 
-    note: special thanks to http://stackoverflow.com/users/290394/steenslag --
-    and to http://stackoverflow.com/users/256970/cary-swoveland --
-    http://stackoverflow.com/questions/41539331/ruby-convert-1d-array-to-2d-inline
+                        Answer: 70600674
+
+    Helped me out:
+        *   special thanks to http://stackoverflow.com/users/290394/steenslag
+        *   http://stackoverflow.com/users/256970/cary-swoveland
+        *   http://stackoverflow.com/questions/41539331/ruby-convert-1d-array-to-2d-inline
 =end
 
 def __greatest_product_vector( vector, limit )

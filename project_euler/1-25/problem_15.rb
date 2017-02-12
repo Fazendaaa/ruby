@@ -9,14 +9,15 @@
 
     How many such routes are there through a 20×20 grid?
 
-    note: these articles helped me out a lot:
-        * http://www.robertdickau.com/lattices.html -- an overview
-        * http://www.robertdickau.com/manhattan.html -- the trueth
+                            Answer: 137846528820
+
+    Helped me out:
+        * http://www.robertdickau.com/lattices.html
+        * http://www.robertdickau.com/manhattan.html
 =end
 
 def number_of_lattice_paths( grid_size )
-    return ( 1..2*grid_size ).inject { | result, item | result = result * item }/
-    ( 1..grid_size ).inject { | result, item | result = result * item } ** 2
+    return ( 1..2*grid_size ).reduce( :* ) / ( 1..grid_size ).reduce( :* )**2
 end
 
 puts number_of_lattice_paths( 20 )

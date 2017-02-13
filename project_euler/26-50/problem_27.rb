@@ -24,22 +24,13 @@
     Find   the  product  of  the  coefficients,  a  and  b,  for  the  quadratic
     expression that produces the maximum number of primes for consecutive values
     of n, starting with n=0.
+
+                                Answer: -59231
 =end
 
-def all_divisors( number )
-    divisors = []
+#!/usr/bin/ruby
 
-    return [ 0 ] if 0 > number
-
-    for i in 1..Math.sqrt( number ).to_i do
-        if 0 == number % i then
-            divisors.push( i )
-            divisors.push( number/i ) if number/i != i
-        end
-    end
-
-    return divisors
-end
+require_relative '../project_euler'
 
 def quadratic_primes( mod_a, mod_b )
     max_coef = max_a = max_b = 0
@@ -57,5 +48,4 @@ def quadratic_primes( mod_a, mod_b )
     return max_a, max_b
 end
 
-puts quadratic_primes( 1_000, 1_000 ).
-     inject { | result, element | result *= element }
+puts quadratic_primes( 1_000, 1_000 ).reduce( :* )

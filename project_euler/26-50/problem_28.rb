@@ -14,20 +14,24 @@
 
     What  is  the  sum  of the numbers on the diagonals in a 1001 by 1001 spiral
     formed in the same way?
+
+                                Answer: 669171001
 =end
 
+#!/usr/bin/ruby
+
 def number_spiral_diagonals( limit )
-    sum = [ 1 ]
+    spiral = [ 1 ]
     number = 1
 
     for i in ( 2..limit ).step( 2 )
         4.times do
             number += i
-            sum.push( number )
+            spiral.push( number )
         end
     end
 
-    return sum.inject { | result, element | result += element }
+    return spiral
 end
 
-puts number_spiral_diagonals( 1_001 )
+puts number_spiral_diagonals( 1_001 ).reduce( :+ )

@@ -20,11 +20,15 @@
     Find the value of d < 1000 for which 1/d contains the longest recurring
     cycle in its decimal fraction part.
 
+                                Answer: 983
+
     obs: article that helped me out:
         *   http://www.mathblog.dk/project-euler-26-find-the-value-of-d-1000-for-which-1d-contains-the-longest-recurring-cycle/
         *   http://stackoverflow.com/a/8927009/7092954
         *   https://zach.se/project-euler-solutions/26/
 =end
+
+#!/usr/bin/ruby
 
 def reciprocal_cycles( limit )
     max_length = 0

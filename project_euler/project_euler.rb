@@ -28,16 +28,20 @@ end
 def all_divisors( number )
     divisors = []
 
-    return [ 0 ] if 0 > number
-
-    for i in 1..Math.sqrt( number ).to_i do
-        if 0 == number % i then
-            divisors.push( i )
-            divisors.push( number/i ) if number/i != i
+    if 0 == number then
+        return [ 0 ]
+    elsif 1 == number then
+        return [ 1 ]
+    else
+        for i in 1..Math.sqrt( number ).to_i do
+            if 0 == number % i then
+                divisors.push( i )
+                divisors.push( number/i ) if number/i != i
+            end
         end
-    end
 
-    return divisors.sort
+        return divisors.sort
+    end
 end
 
 def prime_factors( n )

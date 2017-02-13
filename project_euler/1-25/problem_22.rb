@@ -18,12 +18,6 @@
 
 #!/usr/bin/ruby
 
-def score_name( name )
-    sum = 0
-    name.each_byte { | letter | sum += letter - 64 }
-    return sum
-end
-
 def names_scores( filename )
     names = []
 
@@ -33,8 +27,8 @@ def names_scores( filename )
         end
     end
 
-    return names.sort.each_with_index.
-               map { | name, index | score_name( name ) * ( index + 1 ) }
+    return names.sort.each_with_index.map { | name, index |
+           name.each_byte.map { | e | e - 64 }.reduce( :+ ) * ( index + 1 ) }
 end
 
-puts names_scores( "problem_22.txt" ).reduce( :+ )
+puts names_scores( "input/problem_22.txt" ).reduce( :+ )

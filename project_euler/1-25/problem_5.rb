@@ -3,39 +3,23 @@
 
     2520  is the smallest number that can be divided by each of the numbers from
     1 to 10 without any remainder.
+
     What  is the smallest positive number that is evenly divisible by all of the
     numbers from 1 to 20?
 
-    resolution source: http://www.mathblog.dk/project-euler-problem-5/
+                            Answer: 232792560
+
+    Helped me out:
+        *   http://www.mathblog.dk/project-euler-problem-5/
 =end
+
 #!/usr/bin/ruby
 
-def generate_primes( limit )
-    primes = [ 2 ]
-
-    ( 3..limit ).step( 2 ) do | i |
-        j = 0
-        isPrime = true
-
-        while primes[ j ] * primes[ j ] <= i
-            if 0 == i % primes[ j ]
-                isPrime = false
-                break
-            end
-            j += 1
-        end
-
-        if isPrime
-            primes.push( i )
-        end
-    end
-
-    return primes
-end
+require_relative '../project_euler'
 
 def smallest_multiple( limit )
     limit_log = Math::log10( limit )
-    p = generate_primes( limit )
+    p = erastosthenes_sieve( limit )
     result = 1
 
     for i in 0..p.length-1

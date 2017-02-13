@@ -12,6 +12,8 @@
     from: http://stackoverflow.com/questions/3687517/array-size-too-big-ruby/3688388#3688388
 =end
 
+#!/usr/bin/ruby
+
 def sieve( limit )
     max_length = 500_000_000
     primes = []

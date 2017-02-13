@@ -29,6 +29,8 @@
     greatest product. What is the value of this product?
 =end
 
+#!/usr/bin/ruby
+
 def largest_product_series( series, digits )
     max = 0
 

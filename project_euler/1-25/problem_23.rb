@@ -18,33 +18,21 @@
 
     Find the sum of all the positive integers which cannot be written as the sum
     of two abundant numbers.
+
+                                Answer: 4179871
 =end
 
-def all_divisors( number )
-    divisors = []
+#!/usr/bin/ruby
 
-    for i in 1..Math.sqrt( number ).to_i do
-        if 0 == number % i then
-            if number/i == i then
-                divisors.push( i )
-            else
-                divisors.push( i, number/i )
-            end
-        end
-    end
+require_relative '../project_euler'
 
-    return divisors.sort!
-end
-
-def non_abundant_numbers
+def non_abundant_numbers( limit )
     sum = 0
     abundant = []
     result = []
 
-    for i in 1..28_123 do
-        divisors = all_divisors( i )
-        divisors.pop
-        sum = divisors.inject { | result, element | result += element }
+    for i in 1..limit do
+        sum = all_divisors( i )[ 0..-2 ].reduce( :+ )
         sum = 0 if nil == sum
         abundant.push( i ) if i < sum
     end
@@ -52,16 +40,13 @@ def non_abundant_numbers
     for i in abundant do
         for j in abundant do
             sum = i + j
-            if sum > 28_123 then
-                break
-            else
-                result.push( sum )
-            end
+
+            break if sum > limit
+            result.push( sum )
         end
     end
 
-    return ( 1..28_123 ).to_a - result
+    return ( 1..limit ).to_a - result
 end
 
-puts non_abundant_numbers.
-     inject { | result, element | result = result + element }
+puts non_abundant_numbers( 28_123 ).reduce( :+ )

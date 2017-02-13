@@ -15,6 +15,8 @@
     natural numbers and the square of the sum.
 =end
 
+#!/usr/bin/ruby
+
 def sum_square_diff( limit )
     result = 0
     numbers = ( 1..limit )

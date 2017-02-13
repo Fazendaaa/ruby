@@ -10,45 +10,31 @@
     71 and 142; so d(284) = 220.
 
     Evaluate the sum of all the amicable numbers under 10000.
+
+                                Answer: 31626
+
+    Helped me out:
+        *   https://en.wikipedia.org/wiki/Amicable_numbers
 =end
 
 #!/usr/bin/ruby
 
-def all_divisors( number )
-    divisors = []
+require_relative '../project_euler'
+        
+def amicable_numbers( limit )
+    amicable = []
+    hash = Hash.new( false )
 
-    for i in 1..Math.sqrt( number ).to_i do
-        if 0 == number % i then
-            if number/i == i then
-                divisors.push( i )
-            else
-                divisors.push( i, number/i )
-            end
-        end
+    # => the first pair of amicable numbers are 220 and 284
+    return [] if 220 > limit
+
+    for i in 220..limit do
+        other = all_divisors( i )[ 0..-2 ].reduce( :+ )
+        amicable.push( i ) if i != other &&
+                              all_divisors( other )[ 0..-2 ].reduce( :+ ) == i
     end
 
-    return divisors
+    return amicable
 end
 
-def amicable_numbers( number )
-    if 1 == number then
-        return 0
-    else
-        divisors = all_divisors( number )
-        divisors.sort!.pop
-        return divisors.inject { | result, element | result = result + element }
-    end
-end
-
-def amicable_numbers_sum( number )
-    sum = 0
-
-    for i in 1..number do
-        other = amicable_numbers( i )
-        sum = sum + i if i != other && amicable_numbers( other ) == i
-    end
-
-    return sum
-end
-
-puts amicable_numbers_sum( 10_000 )
+puts amicable_numbers( 10_000 ).reduce( :+ )

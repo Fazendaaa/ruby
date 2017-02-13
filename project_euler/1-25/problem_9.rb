@@ -10,6 +10,8 @@
     Find the product abc.
 =end
 
+#!/usr/bin/ruby
+
 def special_pythagorean_triplet( number )
     a, b, c = 0
 

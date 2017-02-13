@@ -21,9 +21,14 @@
         F12 = 144
 
     The 12th term, F12, is the first term to contain three digits.
+
     What  is  the  index  of the first term in the Fibonacci sequence to contain
     1000 digits?
+
+                            Answer: 4782
 =end
+
+#!/usr/bin/ruby
 
 def fibonacci_number( digits )
     fib = [ 1, 1 ]
@@ -34,7 +39,7 @@ def fibonacci_number( digits )
         i += 1
     end
 
-    fib.length
+   return fib
 end
 
-puts fibonacci_number( 1_000 )
+puts fibonacci_number( 1_000 ).length

@@ -28,7 +28,7 @@ end
 def all_divisors( number )
     divisors = []
 
-    if 0 == number then
+    if 0 > number then
         return [ 0 ]
     elsif 1 == number then
         return [ 1 ]

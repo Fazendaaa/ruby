@@ -7,20 +7,14 @@
     digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
 
     Find the sum of the digits in the number 100!
+
+                            Answer: 648
 =end
 
+#!/usr/bin/ruby
+
 def factorial_digit_sum( limit )
-    result = 1
-
-    # => could start at two, but when the 'limit' is two wouldn't work
-    for i in 1..limit do
-        result = result * i
-    end
-
-    result = result.to_s.split( // ).map( &:to_i ).
-             inject { | result, element | result = result + element }
-
-    return result
+    return ( 1..limit ).reduce( :* ).to_s.split( '' ).map( &:to_i ).reduce( :+ )
 end
 
 puts factorial_digit_sum( 100 )

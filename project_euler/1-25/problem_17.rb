@@ -12,11 +12,15 @@
     letters.  The  use  of  "and" when writing out numbers is in compliance with
     British usage.
 
+                            Answer: 21124
+
     Articles that helped me out:
         *   http://stackoverflow.com/a/31605263/7092954
         *   https://github.com/taimur-akhtar/to_words
         *   http://stackoverflow.com/a/4308399/7092954
 =end
+
+#!/usr/bin/ruby
 
 require 'to_words'
 

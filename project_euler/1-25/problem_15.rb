@@ -16,6 +16,8 @@
         * http://www.robertdickau.com/manhattan.html
 =end
 
+#!/usr/bin/ruby
+
 def number_of_lattice_paths( grid_size )
     return ( 1..2*grid_size ).reduce( :* ) / ( 1..grid_size ).reduce( :* )**2
 end

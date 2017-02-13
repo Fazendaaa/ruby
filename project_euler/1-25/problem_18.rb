@@ -33,12 +33,16 @@
     triangle  containing  one-hundred  rows; it cannot be solved by brute force,
     and requires a clever method! ;o)
 
+                                Answer: 1074
+
     note: articles that helped me out:
         * https://www.quora.com/What-is-an-algorithm-to-find-a-longest-path-in-a-unweighted-directed-acyclic-graph
         * http://cs.stackexchange.com/questions/11263/longest-path-in-an-undirected-tree-with-only-one-traversal/11264#11264
         * https://rosettacode.org/wiki/Dijkstra's_algorithm#Ruby
         * http://stackoverflow.com/questions/8002252/euler-project-18-approach/8002423#8002423
 =end
+
+#!/usr/bin/ruby
 
 def maximum_path_sum_i( triangle )
     tmp = triangle
@@ -67,6 +71,6 @@ input_i =                         "75
                     91 71 52 38 17 14 91 43 58 50 27 29 48
                   63 66 04 68 89 53 67 30 73 16 69 87 40 31
                 04 62 98 27 23 09 70 98 73 93 38 53 60 04 233".
-                lines.map { | line | line.split.map( &:to_i ) }
+               lines.map { | line | line.split.map( &:to_i ) }
 
 puts maximum_path_sum_i( input_i )

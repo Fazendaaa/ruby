@@ -94,3 +94,27 @@ def next_prime( number )
 
     return n
 end
+
+def is_triangle( number )
+    return 0 == ( ( Math.sqrt( 1 - 8*number ) + 1.0 ) / 2.0 ) % 1
+end
+
+def is_square( number )
+    return 0 == Math.sqrt( number ) % 1
+end
+
+def is_pentagonal( number )
+    return 0 == ( ( Math.sqrt( 1 + 24*number ) + 1.0 ) / 6.0 ) % 1
+end
+
+def is_hexagonal( number )
+    return 0 == ( ( Math.sqrt( 1 + 8*number ) + 1.0 ) / 4.0 ) % 1
+end
+
+def is_heptagonal( number )
+    return 0 == ( ( Math.sqrt( 9 + 40*number ) + 3.0 ) / 10.0 ) % 1
+end
+
+def is_octagonal( number )
+    return 0 == ( ( Math.sqrt( 4 + 12*number ) + 2.0 ) / 6.0 ) % 1
+end

@@ -118,3 +118,27 @@ end
 def is_octagonal( number )
     return 0 == ( ( Math.sqrt( 4 + 12*number ) + 2.0 ) / 6.0 ) % 1
 end
+
+def n_triangle( number )
+    return number( number + 1 ) / 2
+end
+
+def n_square( number )
+    return number**2
+end
+
+def n_pentagonal( number )
+    return number( 3*number - 1 ) / 2
+end
+
+def n_hexagonal( number )
+    return number( 2*number - 1 )
+end
+
+def n_heptagonal( number )
+    return number( 5*number - 3 ) / 2
+end
+
+def n_octagonal( number )
+    return number( 3*number - 2 )
+end

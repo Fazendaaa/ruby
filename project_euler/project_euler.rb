@@ -96,7 +96,7 @@ def next_prime( number )
 end
 
 def is_triangle( number )
-    return 0 == ( ( Math.sqrt( 1 - 8*number ) + 1.0 ) / 2.0 ) % 1
+    return 0 == ( ( Math.sqrt( 1 + 8*number ) + 1.0 ) / 2.0 ) % 1
 end
 
 def is_square( number )
@@ -120,7 +120,7 @@ def is_octagonal( number )
 end
 
 def n_triangle( number )
-    return number( number + 1 ) / 2
+    return number*( number + 1 ) / 2
 end
 
 def n_square( number )
@@ -128,17 +128,17 @@ def n_square( number )
 end
 
 def n_pentagonal( number )
-    return number( 3*number - 1 ) / 2
+    return number*( 3*number - 1 ) / 2
 end
 
 def n_hexagonal( number )
-    return number( 2*number - 1 )
+    return number*( 2*number - 1 )
 end
 
 def n_heptagonal( number )
-    return number( 5*number - 3 ) / 2
+    return number*( 5*number - 3 ) / 2
 end
 
 def n_octagonal( number )
-    return number( 3*number - 2 )
+    return number*( 3*number - 2 )
 end

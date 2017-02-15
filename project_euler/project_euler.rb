@@ -95,50 +95,78 @@ def next_prime( number )
     return n
 end
 
+def y_triangle( number )
+    return ( ( Math.sqrt( 1 + 8*number ) + 1.0 ) / 2.0 )
+end
+
+def y_square( number )
+    return Math.sqrt( number )
+end
+
+def y_pentagonal( number )
+    return ( ( Math.sqrt( 1 + 24*number ) + 1.0 ) / 6.0 )
+end
+
+def y_hexagonal( number )
+    return ( ( Math.sqrt( 1 + 8*number ) + 1.0 ) / 4.0 )
+end
+
+def y_heptagonal( number )
+    return ( ( Math.sqrt( 9 + 40*number ) + 3.0 ) / 10.0 )
+end
+
+def y_octagonal( number )
+    return ( ( Math.sqrt( 4 + 12*number ) + 2.0 ) / 6.0 )
+end
+
+# ==============================================================================
+
 def is_triangle( number )
-    return 0 == ( ( Math.sqrt( 1 + 8*number ) + 1.0 ) / 2.0 ) % 1
+    return 0 == y_triangle( number ) % 1
 end
 
 def is_square( number )
-    return 0 == Math.sqrt( number ) % 1
+    return 0 == y_square( number ) % 1
 end
 
 def is_pentagonal( number )
-    return 0 == ( ( Math.sqrt( 1 + 24*number ) + 1.0 ) / 6.0 ) % 1
+    return 0 == y_pentagonal( number ) % 1
 end
 
 def is_hexagonal( number )
-    return 0 == ( ( Math.sqrt( 1 + 8*number ) + 1.0 ) / 4.0 ) % 1
+    return 0 == y_hexagonal( number ) % 1
 end
 
 def is_heptagonal( number )
-    return 0 == ( ( Math.sqrt( 9 + 40*number ) + 3.0 ) / 10.0 ) % 1
+    return 0 == y_heptagonal( number ) % 1
 end
 
 def is_octagonal( number )
-    return 0 == ( ( Math.sqrt( 4 + 12*number ) + 2.0 ) / 6.0 ) % 1
+    return 0 == y_octagonal( number ) % 1
 end
 
-def n_triangle( number )
+# ==============================================================================
+
+def f_triangle( number )
     return number*( number + 1 ) / 2
 end
 
-def n_square( number )
+def f_square( number )
     return number**2
 end
 
-def n_pentagonal( number )
+def f_pentagonal( number )
     return number*( 3*number - 1 ) / 2
 end
 
-def n_hexagonal( number )
+def f_hexagonal( number )
     return number*( 2*number - 1 )
 end
 
-def n_heptagonal( number )
+def f_heptagonal( number )
     return number*( 5*number - 3 ) / 2
 end
 
-def n_octagonal( number )
+def f_octagonal( number )
     return number*( 3*number - 2 )
 end

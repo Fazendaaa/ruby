@@ -27,12 +27,16 @@
 	each  polygonal  type:  triangle, square, pentagonal, hexagonal, heptagonal,
 	and octagonal, is represented by a different number in the set.
 
+							Answer: 28684
+
 	Helped me out:
 		*	http://stackoverflow.com/a/4094968/7092954
 		*	https://zach.se/project-euler-solutions/61/
 		*	http://stackoverflow.com/a/7430444/7092954
 		*	http://stackoverflow.com/a/13654582/7092954
 =end
+
+#!/usr/bin/ruby
 
 require_relative '../project_euler'
 
@@ -55,30 +59,29 @@ def cyclical_figurate_numbers
 	matches = catch( :END ) {
 		for t1, k1, v1 in numbers do
 			for t2, k2, v2 in numbers.select { | t, k, v |
-				[ t1 ].any? { | e |	e != t } &&
-				[ k1 ].any? { | e | e != k } && is_cyclic( v1, v ) } do
+				![ t1 ].include?( t ) &&
+				![ k1 ].include?( k ) && is_cyclic( v1, v ) } do
 
 				for t3, k3, v3 in numbers.select { | t, k, v |
-					[ t1, t2 ].any? { | e | e != t } &&
-					[ k1, k2 ].any? { | e | e != k } &&	is_cyclic( v2, v ) } do
+					![ t1, t2 ].include?( t ) &&
+					![ k1, k2 ].include?( k ) && is_cyclic( v2, v ) } do
 
 					for t4, k4, v4 in numbers.select { | t, k, v |
-						[ t1, t2, t3 ].any? { | e | e != t } &&
-						[ k1, k2, k3 ].any? { | e |	e != k } &&
+						![ t1, t2, t3 ].include?( t ) &&
+						![ k1, k2, k3 ].include?( k ) &&
 						is_cyclic( v3, v ) } do
 					
 						for t5, k5, v5 in numbers.select { | t, k, v |
-							[ t1, t2, t3, t4 ].any? { | e | e != t } &&
-							[ k1, k2, k3, k4 ].any? { | e | e != k } &&
+							![ t1, t2, t3, t4 ].include?( t ) &&
+							![ k1, k2, k3, k4 ].include?( k ) &&
 							is_cyclic( v4, v ) }do
 							
 							for t6, k6, v6 in numbers.select { | t, k, v |
-								[ t1, t2, t3, t4, t5 ].any? { | e |	e != t } &&
-								[ k1, k2, k3, k4, k5 ].any? { | e | e != k } &&
+								![ t1, t2, t3, t4, t5 ].include?( t ) &&
+								![ k1, k2, k3, k4, k5 ].include?( k ) &&
 								is_cyclic( v5, v ) } do
 
 								if is_cyclic( v6, v1 ) then
-									print [ t1, t2, t3, t4, t5, t6 ], "\n"
 									throw :END, [ v1, v2, v3, v4, v5, v6 ]
 								end
 							end
@@ -92,4 +95,4 @@ def cyclical_figurate_numbers
 	return matches
 end
 
-print cyclical_figurate_numbers, "\n"#.reduce( :+ )
+puts cyclical_figurate_numbers.reduce( :+ )

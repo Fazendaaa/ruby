@@ -36,68 +36,60 @@
 
 require_relative '../project_euler'
 
-def create_iterators( range, method )
-	hash = Hash.new( false )
-	range.each do | e | hash[ e ] = method.call( e ) end
-
-	return hash
+def create_iterators( type, range, method )
+	return range.map { | e | [ type, e, method.call( e ) ] }
 end
 
 def is_cyclic( a, b ) a.to_s[ -2..-1 ] == b.to_s[ 0..1 ] end
 
 def cyclical_figurate_numbers
-	triangle = create_iterators( ( 45..140 ), method( :f_triangle ) )
-	square = create_iterators( ( 32..99 ), method( :f_square ) )
-	pentagonal = create_iterators( ( 26..81 ), method( :f_pentagonal ) )
-	hexagonal = create_iterators( ( 23..70 ), method( :f_hexagonal ) )
-	heptagonal = create_iterators( ( 21..63 ), method( :f_heptagonal ) )
-	octagonal = create_iterators( ( 19..57 ), method( :f_octagonal ) )
-	compare = []
+	triangle = [ create_iterators( 3, ( 45..140 ), method( :f_triangle ) ) ]
+	square = [ create_iterators( 4, ( 32..99 ), method( :f_square ) ) ]
+	pentagonal = [ create_iterators( 5, ( 26..81 ), method( :f_pentagonal ) ) ]
+	hexagonal = [ create_iterators( 6, ( 23..70 ), method( :f_hexagonal ) ) ]
+	heptagonal = [ create_iterators( 7, ( 21..63 ), method( :f_heptagonal ) ) ]
+	octagonal = [ create_iterators( 8, ( 19..57 ), method( :f_octagonal ) ) ]
+	numbers = [ triangle + square + pentagonal + hexagonal + heptagonal +
+				octagonal ].flatten( 2 )
 
 	matches = catch( :END ) {
-		for k1, v1 in octagonal do
-			compare.push( k1 )
-			
-			for k2, v2 in triangle.select {
-				| k, v | compare.any? { | e | e != k } && is_cyclic( v1, v ) } do
-				compare.push( k2 )
+		for t1, k1, v1 in numbers do
+			for t2, k2, v2 in numbers.select { | t, k, v |
+				[ t1 ].any? { | e |	e != t } &&
+				[ k1 ].any? { | e | e != k } && is_cyclic( v1, v ) } do
 
-				for k3, v3 in square.select {
-					| k, v | compare.any? { | e | e != k }  &&
-					is_cyclic( v2, v ) } do
-					compare.push( k3 )
+				for t3, k3, v3 in numbers.select { | t, k, v |
+					[ t1, t2 ].any? { | e | e != t } &&
+					[ k1, k2 ].any? { | e | e != k } &&	is_cyclic( v2, v ) } do
 
-					for k4, v4 in pentagonal.select {
-						| k, v | compare.any? { | e | e != k }  &&
+					for t4, k4, v4 in numbers.select { | t, k, v |
+						[ t1, t2, t3 ].any? { | e | e != t } &&
+						[ k1, k2, k3 ].any? { | e |	e != k } &&
 						is_cyclic( v3, v ) } do
-						compare.push( k4 )
-						
-						for k5, v5 in hexagonal.select {
-							| k, v | compare.any? { | e | e != k }  &&
-							is_cyclic( v4, v ) } do
-							compare.push( k5 )
+					
+						for t5, k5, v5 in numbers.select { | t, k, v |
+							[ t1, t2, t3, t4 ].any? { | e | e != t } &&
+							[ k1, k2, k3, k4 ].any? { | e | e != k } &&
+							is_cyclic( v4, v ) }do
 							
-							for k6, v6 in heptagonal.select {
-								| k, v | compare.any? { | e | e != k }  &&
+							for t6, k6, v6 in numbers.select { | t, k, v |
+								[ t1, t2, t3, t4, t5 ].any? { | e |	e != t } &&
+								[ k1, k2, k3, k4, k5 ].any? { | e | e != k } &&
 								is_cyclic( v5, v ) } do
 
 								if is_cyclic( v6, v1 ) then
+									print [ t1, t2, t3, t4, t5, t6 ], "\n"
 									throw :END, [ v1, v2, v3, v4, v5, v6 ]
 								end
 							end
-							compare.pop	# => remove k5
 						end
-						compare.pop	# => remove k4
 					end
-					compare.pop	# => remove k3
 				end
-				compare.pop	# => remove k2
 			end
-			compare.pop	# => remove k1
 		end
 	}
 
 	return matches
 end
 
-puts cyclical_figurate_numbers.reduce( :+ )
+print cyclical_figurate_numbers, "\n"#.reduce( :+ )

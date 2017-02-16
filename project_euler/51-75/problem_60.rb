@@ -12,48 +12,25 @@
 
 	Helped me out:
 		*	http://www.mathplanet.com/education/algebra-2/discrete-mathematics-and-probability/permutations-and-combinations
+		*	http://rubylearning.com/blog/2013/06/19/how-do-i-benchmark-ruby-code/
+		*	http://www.mathblog.dk/project-euler-60-primes-concatenate/
 =end
 
 require_relative '../project_euler'
 
-def prime_pair_sets( min )
+def make_pair( primes )
 	hash = Hash.new( false )
-	primes = []
-	matches = 0
-	prime = 0
-	# => P ( n , r ) = n ! ( n − r ) !
-	n_permutation = ( 1..min ).reduce( :* ) / ( 1..min-2 ).reduce( :* )
-	pair = nil
+	combination = primes.combination( 2 ).to_a.select { | e | is_prime( e ) }
+	combination.each do | e | hash[ e ] = true end 
 
-	while matches < n_permutation do
-		prime = next_prime( prime )
-		primes.push( prime )
+	return hash
+end
 
-		# => all the limbo in process begin down here
-		for a in primes.combination( min ) do
-			matches = 0
-
-			for b in a.permutation( 2 ) do
-				new_number = b.join.to_i
-		
-				if hash[ new_number ] || is_prime( new_number ) then
-					hash[ new_number ] = new_number
-					matches += 1
-				else
-					# => all numbers must be primes
-					break
-				end
-			end
+def prime_pair_sets( min )
+	hash = make_pair( erathotenes_sieve( 30_000 ) )
 
 
-			if matches >= n_permutation then
-				pair = a
-				break
-			end
-		end
-	end
-
-	return pair
+	return set
 end
 
 puts prime_pair_sets( 5 ).reduce( :+ )

@@ -136,3 +136,9 @@ def f_hexagonal( number ) number*( 2*number - 1 ) end
 def f_heptagonal( number ) number*( 5*number - 3 ) / 2 end
 
 def f_octagonal( number ) number*( 3*number - 2 ) end
+
+# ==============================================================================
+
+def cube_root(x) ( Math.exp( Math.log( x.to_f ) / 3.to_f ) ).round( 12 ) end
+
+def is_cube_root( n ) 0 == cube_root( n ) % 1 end

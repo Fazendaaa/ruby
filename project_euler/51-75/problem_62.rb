@@ -19,11 +19,10 @@
 
 def cubic_permutations( limit )
 	hash = Hash.new { | h, k | h[ k ] = Array.new }
-	n = 0
 
 	smallest = catch( :END ) {
-		while true do
-			n += 1
+		n = 0
+		while n += 1 do
 			cubic = ( n**3 ).to_s.split( '' ).sort.join 
 			hash[ cubic ].push( n**3 )
 	

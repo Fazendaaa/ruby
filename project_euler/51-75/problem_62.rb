@@ -23,9 +23,7 @@ def cubic_permutations( limit )
 	smallest = catch( :END ) {
 		n = 0
 		while n += 1 do
-			cubic = ( n**3 ).to_s.split( '' ).sort.join 
-			hash[ cubic ].push( n**3 )
-	
+			hash[ cubic = ( n**3 ).to_s.split( '' ).sort.join  ].push( n**3 )
 			throw :END, hash[ cubic ] if hash[ cubic ].length == limit
 		end
 	}

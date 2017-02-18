@@ -11,26 +11,41 @@
 	concatenate to produce another prime.
 
 	Helped me out:
-		*	http://www.mathplanet.com/education/algebra-2/discrete-mathematics-and-probability/permutations-and-combinations
-		*	http://rubylearning.com/blog/2013/06/19/how-do-i-benchmark-ruby-code/
-		*	http://www.mathblog.dk/project-euler-60-primes-concatenate/
+		* See exercise 62
 =end
 
 require_relative '../project_euler'
 
-def make_pair( primes )
-	hash = Hash.new( false )
-	combination = primes.combination( 2 ).to_a.select { | e | is_prime( e ) }
-	combination.each do | e | hash[ e ] = true end 
-
-	return hash
-end
-
 def prime_pair_sets( min )
-	hash = make_pair( erathotenes_sieve( 30_000 ) )
+	hash = Hash.new
 
+	set = catch( :END ) {
+		n = 0
+		while n = next_prime( n ) do
+			hash[ n ] = [ n ]
+
+			for k, v in hash do
+				count = 0
+
+				for i in v do
+					pre = ( i.to_s.concat( n.to_s ) ).to_i
+					pos = ( n.to_s.concat( i.to_s ) ).to_i
+
+					if is_prime( pre ) && is_prime( pos )
+						count += 1
+					else
+						break
+					end
+				end
+
+				hash[ k ].push( n ) if hash[ k ].length == count
+
+				throw :END, hash[ k ] if hash[ k ].length == min
+			end
+		end
+	}
 
 	return set
 end
 
-puts prime_pair_sets( 5 ).reduce( :+ )
+puts prime_pair_sets( 4 ).reduce( :+ )

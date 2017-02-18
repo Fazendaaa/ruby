@@ -4,7 +4,7 @@
 	All square roots are periodic when written as continued fractions and can be
 	written in the form:
 
-	[ Couldn't past here, description in: https://projecteuler.net/problem=64 ]
+	[ Couldn't paste here, description in: https://projecteuler.net/problem=64 ]
 
 	It  can  be seen that the sequence is repeating. For conciseness, we use the
 	notation  √23 =  [4;(1,3,1,8)], to indicate that the block (1,3,1,8) repeats

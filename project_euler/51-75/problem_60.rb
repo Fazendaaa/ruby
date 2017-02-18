@@ -14,6 +14,8 @@
 		* See exercise 62
 =end
 
+#!/usr/bin/ruby
+
 require_relative '../project_euler'
 
 def prime_pair_sets( min )

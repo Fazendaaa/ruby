@@ -36,13 +36,33 @@
 
 require_relative '../project_euler'
 
+def has_period( interval )
+	half = interval.length / 2
+	a, b = interval.each_slice( half ).to_a
+
+	for i in 0..half-1 do
+		return false if a[ i ] != b[ i ]
+	end
+
+	return true
+end
+
 def continued_fractions( number )
-	reamain = Math.sqrt( number )
+	remain = Math.sqrt( number )
+	fractions = [ remain.to_i ]
 	period = []
 
+	catch( :END ) {
+		while true do
+			new_number = remain % 1
+			remain = 1.0 / new_number
+			period.push( remain.to_i )
 
+			throw :END if has_period( period )
+		end
+	}
 
-	return period
+	return fractions.concat( period.slice!( 0..period.length-1 ) )
 end
 
 def odd_period_square_roots( limit )

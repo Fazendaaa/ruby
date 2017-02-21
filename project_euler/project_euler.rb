@@ -2,6 +2,21 @@
                             Common used functions
 =end
 
+# ==============================================================================
+
+class Integer
+    def is_odd?
+        0 != self % 2
+    end
+
+    def is_even?
+        !self.is_odd?
+    end
+end
+
+
+# ==============================================================================
+
 def is_prime( number )
     return false if 2 > number
 
